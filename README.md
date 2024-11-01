@@ -12,46 +12,27 @@ All materials are shared under a Creative Commons license — feel free to use a
 
 The advised folder structure to follow this tutorial is:
 
+```
 ENMTutorial
-
     |
-
     |- data
-
     |    |
-
     |    |- other *accessory files will be saved here*
-
     |    |
-
     |    |- rasters *rasters will be saved in this folder throughout tutorial*
-
     |    |     |
-
     |    |     |- original *unprocessed raster files downloaded from different sources* 
-
     |    |           |- climate
-
     |    |           |- evi
-
     |    |
-
     |    |- species *processed species presence data will be saved in this folder*
-
     |          |
-
     |          |- original *raw species presence data*
-
     |                 |- Vaspis.csv
-
     |                 |- Vlatastei.csv
-
     |                 |- Vseoanei.csv
-
     | 
-
     |- models *All built models will be saved in this folder within subfolders*
-
     |
-
     | *All tutorial scripts*
+```
