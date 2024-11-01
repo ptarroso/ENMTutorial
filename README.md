@@ -4,7 +4,7 @@ Welcome to a hands-on guide to Ecological Niche Modeling! This tutorial provides
 
 🔗 [Explore the full tutorial here in the web version!](https://ptarroso.github.io/ENMTutorial/)
 
-📄 [Prefer a PDF version? It’s available too!](blob:https://github.com/63e0e622-0acf-4dcc-b138-806b5c4bf4b6)
+📄 [Prefer a PDF version? It’s available too!](https://github.com/ptarroso/ENMTutorial/blob/gh-pages/ENM_tutorial.pdf?raw=true)
 
 Explore the different branches in this repository to find the book source files.
 
