@@ -1,0 +1,6 @@
+*.tif
+data/other/*
+!data/other/.notes
+models/Vaspis/*
+models/Vlatastei/*
+models/Vseoanei/*
