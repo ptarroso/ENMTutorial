@@ -1,6 +1,6 @@
 # Ecological Niche Modeling Tutorial 🌍
 
-Welcome to a hands-on guide to Ecological Niche Modeling! This tutorial provides a complete sequence of scripts covering all the fundamental steps to create Ecological Niche Models. Not only can you download and follow them in order, but I've also enhanced this guide with detailed explanations for each step to support your journey from start to finish.
+Welcome to a hands-on guide to Ecological Niche Modeling! This tutorial provides a complete sequence of scripts covering all the fundamental steps to create Ecological Niche Models. Not only can you download and follow them in order, but I'm also providing a step-by-step tutorial with detailed explanations to support the interpretation of each script from start to finish.
 
 🔗 [Explore the full tutorial here in the web version!](https://ENMTutorial.github.io)
 
