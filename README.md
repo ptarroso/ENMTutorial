@@ -17,22 +17,22 @@ ENMTutorial
     |
     |- data
     |    |
-    |    |- other *accessory files will be saved here*
+    |    |- other (accessory files will be saved here)
     |    |
-    |    |- rasters *rasters will be saved in this folder throughout tutorial*
+    |    |- rasters (rasters will be saved in this folder throughout tutorial)
     |    |     |
-    |    |     |- original *unprocessed raster files downloaded from different sources* 
+    |    |     |- original (unprocessed raster files downloaded from different sources) 
     |    |           |- climate
     |    |           |- evi
     |    |
-    |    |- species *processed species presence data will be saved in this folder*
+    |    |- species (processed species presence data will be saved in this folder)
     |          |
-    |          |- original *raw species presence data*
+    |          |- original (raw species presence data)
     |                 |- Vaspis.csv
     |                 |- Vlatastei.csv
     |                 |- Vseoanei.csv
     | 
-    |- models *All built models will be saved in this folder within subfolders*
+    |- models (All built models will be saved in this folder within subfolders)
     |
-    | *All tutorial scripts*
+    | (All tutorial scripts)
 ```
