@@ -1,0 +1,151 @@
+# Chapter 4 - Variable selection for modelling
+
+It is common practice to collect all predictor variables available that are deemed relevant for our study system and hypotheses. These include direct variables (like temperature) and processed variables (like distances to habitat categories). However, it is rarely a good idea to include all variables into the modeling process.
+
+To address this, we can reduce the number of variables by checking the pairwise correlation among them. Correlated variables will bring mostly the same information to the model and might add a confounding effect when analyzing the variable importance in the models. There is no universal maximum correlation value for modeling, but avoiding correlations higher than 0.7 is generally considered sufficient. We will set this target for this example.
+
+We will only need `terra` library for this.
+
+```{r, results=FALSE, message=FALSE, warning=FALSE}
+library(terra)
+```
+
+We need the raster variables created in Chapter 2 and the optimised presence data from Chapter 3. 
+
+```{r}
+evi <- rast("data/rasters/evi.tif")
+clim <- rast("data/rasters/climate.tif")
+pres <- read.table("data/species/speciesPresence_v2.csv", sep="\t", header=TRUE)
+```
+
+The rasters are fully aligned (Chapter 2) and we can stack them together. Having the 20 variables (19 bioclimatic + 1 EVI) in the same object will simplify the process of selection.
+
+```{r}
+rst <- c(clim, evi)
+names(rst)
+```
+## Define a training area with a buffer
+
+We need to define a training area for the modeling. This restricts the available area from where we retrieve data for model calibration, including both presence data and pseudo-absence data. There are many ways to select this area, but we will follow a strategy that defines a spatial buffer around the presence points. This buffer limits the area from which we can retrieve environmental data from the rasters. A buffer should provide enough environmental variation for the modeling. However, a very wide buffer can pose problems, as we might include areas that are far from the species' optimal conditions. For instance, if we model a species only present in the Iberian Peninsula, but we choose a buffer large enough to include Iceland, we will be providing useless environmental variation to the model.
+
+In this chapter, the buffer will define the training area that will provide environmental variation to the model and where we should check the correlations. Although we have more environmental data outside the buffer, that data will not be relevant for the model and hence should not be used for correlation analysis.
+
+Here, we define the buffer size as 1 degree, which is roughly equivalent to ~110,000 meters.
+
+::: {.noteblock data-latex=""}
+**NOTE**: The buffer defined here will be important for Chapter 6 when we build the models. We will have to define the same buffer size."
+:::
+
+::: {.noteblock data-latex=""}
+**NOTE on spatial data in R**: When we open the presence data in R with the `read.table` command, we just create a data frame (like a spreadsheet in Excel). Although we might have columns for longitude and latitude, they are just numbers organized in two columns. Since creating buffers is a spatial operation, we have to inform R that the presences are spatial points. In other words, we have to formalize that the data frame is, in fact, a list of spatial points. This can be done with the `vect` command from the `terra` package, which is also used to open spatial data files such as shapefiles. We must define which columns store the longitude and latitude (in our case, the 'x' and 'y' columns).
+:::
+
+```{r}
+v <- vect(pres, geom= c("x", "y"))
+```
+
+Now we can define our buffers with a 1-degree radius. The `buffer`  function creates an individual buffer around each presence, and we then `aggregate`  them into a single polygon.
+
+```{r}
+bsize <- 1
+buf <- buffer(v, bsize)
+buf <- aggregate(buf)
+```
+
+To check how everything is looking, we can plot presence and buffers over the EVI variable.
+
+```{r}
+plot(evi)
+plot(buf, cex=0.25, add=T)
+plot(v, add=T)
+```
+As we can see in the figure, the buffer is created around presences. This includes ocean areas which will be ignored later as they provides only NAs.
+
+We can use the buffer to extract the environmental data for all 20 variables. 
+
+```{r}
+dt <- extract(rst, buf, ID=FALSE)
+head(dt)
+```
+
+There are many NAs that come from ocean pixels. We should remove those rows and keep only the valid data before proceeding with correlations. Since the rasters are fully aligned (Chapter 2), including the No Data mask, we can use the NAs from a single raster to filter all other variables.
+
+```{r}
+dt <- dt[!is.na(dt[,1]),]
+head(dt)
+```
+
+Now we have only data! We can proceed with Pearson correlations.
+
+## Calculate pairwise correlations
+
+Getting the Pearson's correlation scores for each pair of variables is very easy in R. We have all raster data for the training area (buffer) organized in a data frame where each column is a different variable. We just calculate correlations based on that table.
+
+```{r}
+corr <- cor(dt)
+# Rounding to 3 decimal places to facilitate visualization.
+round(corr, 3)
+```
+
+The correlation matrix provides the correlation score for each pair of variables. It is symmetric (the correlation of A to B is the same as B to A) and the diagonal gives the self-correlation, which is obviously 1.
+
+This matrix is not easy to use for the variable elimination process. Remember that we set a goal of not having an absolute correlation higher than 0.7, so we should find a way to select important variables that will provide a new set where the maximum pairwise correlation won't exceed that value.
+
+One of the best and simplest ways is to organize the variables in a dendrogram by using a hierarchical clustering method. We should group in the same cluster variables that are similar to each other (highly correlated). To do this, we need to transform the correlation score into a dissimilarity or distance matrix, where increasing values will reflect that variables are less similar (low correlation). For that we need to:
+
+1. Get the absolute value of the correlation because we just care about the magnitude of the correlation and not the direction (two variables that are correlated at -0.87 provide the same information as those that are correlated at +0.87). At this point, the matrix will have values from 0 (low correlation, thus highly distant) to 1 (high correlation, showing high similarity and low distance).
+2. Ensure that lower values reflect similarity (high correlation) and higher values describe dissimilarity (low correlation). To achieve this, we need to invert the values by subtracting the absolute value from 1.
+
+```{r}
+# Convert correlation to distance
+dist <- 1 - abs(corr)
+```
+
+We need to discard one of the symmetrical sides and the diagonal. An easy way to do this is to convert the matrix to a `dist` object:
+
+```{r}
+dist <- as.dist(dist)
+```
+
+## Clustering and selection
+
+With the new distance matrix we can start the clustering process. We choose the method 'single' so every cluster is grouped by the minimum distance/correlation.
+
+```{r}
+# Hierarchical cluster of distance
+hc <- hclust(dist, method="single")
+plot(hc, hang=-1)
+```
+
+We can select 5 variables, one from each major group in the tree. Variables can be selected based on how easily they can be interpreted in terms of the niche of the species. In this case, we select:
+
+* evi
+* BIO_8: Mean daily Temperature Wettest Quarter
+* BIO_3: Isothermality 
+* BIO_12: Annual Precipitation Amount
+* BIO_1: Annual Temperature
+
+We select the vars using the variables names we defined previously and create a new raster with only those variables.
+
+```{r}
+sel_vars <- c("evi", "BIO_8", "BIO_3", "BIO_12", "BIO_1")
+sel_rst <- rst[[sel_vars]]
+```
+
+We select the variables using the names we defined previously and create a new raster with only those variables.
+
+```{r}
+# Check correlation of final dataset
+sel_dt <- dt[,sel_vars]
+cor(sel_dt)
+```
+
+The maximum correlation does not pass the value of 0.51, which is generally acceptable.
+
+We save the selected variables to a file named *final_vars.tif*. You can check the variables in any GIS.
+
+```{r}
+# Write Final raster to model
+writeRaster(sel_rst, "data/rasters/final_vars.tif", overwrite=TRUE)
+```
+

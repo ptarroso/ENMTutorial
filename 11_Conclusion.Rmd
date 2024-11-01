@@ -1,0 +1,25 @@
+# Conclusion
+
+We have seen the process of ecological niche modeling using R, focusing on viper species in the Iberian Peninsula as a case study. We covered topics such as data collection, preprocessing predictors and presence data, model building, ensembling, and projection to future climate scenarios. The general steps we covered were:
+
+* **Data Collection**: Gather presence data for the species of interest along with environmental variables like bioclimate varibles and NDVI.
+
+* **Data Preprocessing**: Process the data by checking for duplicates in presence record and other erroneous coordinates; making sure the predictors are fully geographically align and that correlations among variables are adequate; prepare a training and projection area.
+
+* **Model Building**: Use the *biomod2* package to build ecological niche models, selecting appropriate pseudo-absences, algorithms, and resampling strategies.
+
+* **Model Evaluation**: Evaluate model performance using metrics like True Skill Statistic (TSS) and Receiver Operating Characteristic (ROC) curves.
+
+* **Model Ensembling**: Ensemble multiple models to create a more robust prediction by combining different pseudo-absences sets, algorithms, and resampling strategies.
+
+* **Projection**: Project the ensembled models to future climate scenarios to assess potential distribution changes under different climate conditions.
+
+* **Spatial Analysis**: Analyzs spatial patterns in the model predictions, for instance, identify sympatric zones, and assess changes in contact zones over time.
+
+At this point, you should understand that:
+
+* Ecological niche modeling provides valuable insights into species distributions and responses to environmental changes.
+* Model performance depends on various factors such as data quality, variable selection, algorithm choice, and vary between model evaluation metrics.
+* Ensembling multiple models improves prediction accuracy and robustness by capturing a wider range of situtations and simplify the analyses of complex model results.
+* Future climate projections highlight potential shifts in species distributions, and might provide a good insight for conservation planning and management strategies.
+* Spatial analysis is an important process in the ecological modelling an, in this example, was essential to identify areas of overlap and potential interactions between species.

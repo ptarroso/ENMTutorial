@@ -1,0 +1,3 @@
+book_filename: "ENM_tutorial.Rmd"
+output_dir: "docs"
+rmd_files: ["index.Rmd", "01_DataStucture.Rmd", "02_Chapter1.Rmd", "03_Chapter2.Rmd", "04_Chapter3.Rmd", "05_Chapter4.Rmd", "06_Chapter5.Rmd", "07_Chapter6.Rmd", "08_Chapter7.Rmd", "09_Chapter8.Rmd", "10_Chapter9.Rmd", "11_Conclusion.Rmd"]

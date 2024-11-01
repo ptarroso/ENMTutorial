@@ -1,0 +1,95 @@
+# Chapter 3 - Final optimization of presence data
+
+
+In this chapter, we will load the presence data we worked on in Chapter 1 and the raster variables we processed in Chapter 2. We will optimize the presence data by considering the spatial resolution of the variables.
+
+This ensures that no presence is repeated in the same pixel (also referred to as a cell). Having multiple presences in the same pixel would mean that we would provide the same set of environmental conditions repeated as many times as the presences. This can create an artificial bias in the models towards these values. By setting a resolution and removing duplicate presences, we also reduce bias towards areas with more sampling effort (an area with more effort tend to have more duplicates at wider spatial resolutions).
+
+We will only need `terra` library for this chapter. 
+
+```{r, results=FALSE, message=FALSE, warning=FALSE}
+library(terra)
+```
+
+We can now open the relevant data for this chapter. Since in the last chapter we fully aligned the raster variables, we only need to open a single one now as it will provide enough information for this process. The presence data set is that produced at the end of chapter 1.
+
+```{r}
+evi <- rast("data/rasters/evi.tif")
+pres <- read.table("data/species/speciesPresence_v1.csv", sep="\t", header=TRUE)
+```
+
+Now we will extract raster values at each presence location point. For that, we will use the `extract` function provided by the `terra` package. This function will detect in which pixel/cell the presence is located and extract that information. If a presence is located in a No Data pixel, we will be able to identify it and remove it. However, here we are also interested in identifying if the pixel is the same or not. We cannot rely on EVI values for that, as different pixels might have the same value.
+
+We can set the `cells=TRUE` parameter in the `extract` function. For each presence, this will provide a unique pixel/cell identifier. Thus, if two presences are in the same pixel, they will have the same identifier, and we can keep only one, removing the duplicates.
+
+```{r}
+dt <- extract(evi, pres[,c("x", "y")], cells=TRUE)
+head(dt)
+```
+
+Now we remove those presences that fall in No Data by checking the *evi* column of the extracted data table:
+
+```{r}
+mask <- is.na(dt$evi)
+
+# how many presences fall in missing data?
+sum(mask)
+
+dt <- dt[!mask,]
+pres <- pres[!mask,]
+```
+
+Now that both the *presence* and *extrated* datasets are free of missing data, we need to check for pixel duplicates. However, there is a detail that adds a bit of complexity to the process. Since we are working with three species, we have to check for duplicates independently for each species. This is because the three species can coexist in the same pixel (sympatry), and we do not want to confound this situation as pixel duplicates.
+
+The easiest way to do this is to create a loop over the species so that we can detect duplicates for each species independently. The code is organized as follows:
+1. Check the names of the species to loop over (three different species in this case)
+2. Create a column in the *presence* data set that will store a value of TRUE is the presence is duplicated in the pixel (i.e., if there was already another presence before at the same pixel) or FALSE if the presence is unique or the first record for a given pixel.
+3. Loop over species
+    1. Identify the rows of *presence* table referring to the current species in the loop
+    2. Detect of duplicates only for the current species
+    3. Update the *duplicated* column created in step 2 with the relevant information for the species.
+    4. Print in the console how many duplicates were found for each species
+
+```{r}
+sps <- unique(pres$species)
+
+pres$duplicated <- NA
+
+for (sp in sps) {
+    rows <- which(pres$species == sp)
+    sp.dup <- duplicated(dt$cell[rows])
+    pres$duplicated[rows] <- sp.dup
+    print(paste("Species", sp, "has", sum(sp.dup), "duplicates"))
+}
+```
+
+We can check the first rows of data to check the table and how many presences were identified in total (each TRUE is equivalent to 1, and a FALSE to 0)
+
+```{r}
+head(pres)
+sum(pres$duplicated)
+```
+
+Everything seems coherent, so we proceed to remove the duplicated rows. We have to invert the logical value as we want to keep the rows that are not duplicated (were set as FALSE). The sub setting with [ ] only keeps the rows set as TRUE, thus, by inverting with the exclamation point (!) before, we invert and set TRUE to FALSE, and FALSE to TRUE.
+
+```{r}
+final_pres <- pres[!pres$duplicated, 1:3]
+```
+
+We only kept the first 3 columns (species, name, longitude and latitude) as they are the information we need to model. 
+
+We can get a summary of how may presence data points we kept at the end of presence processing.
+
+```{r}
+dim(final_pres)
+table(final_pres$species)
+```
+
+Finally, we end this chapter by saving a new file with the optimized data set that will be used for modelling. 
+
+```{r}
+# write to file
+filename <- "data/species/speciesPresence_v2.csv"
+write.table(final_pres, filename, sep="\t", row.names=FALSE, col.names=TRUE)
+```
+

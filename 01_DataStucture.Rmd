@@ -1,0 +1,100 @@
+
+# Course folder structure and data
+ 
+To follow this guide you should have a folder with data and scripts. You should have 9 scripts:
+ 
+* 01_Presence_Data.R
+* 02_ProcessRasters.R
+* 03_OptimizePresenceData.R
+* 04_StaticalVariableSelection.R
+* 05_PrepareProjectionVars.R
+* 06_ModelBuiding.R
+* 07_ensembleModels.R
+* 08_projectAll.R
+* 09_prepareFinalMaps.R
+ 
+ You should also have two folders:
+ 
+* data: where all the needed data is saved and where scripts are generating data
+* models: where model data from Biomod will be saved
+ 
+::: {.noteblock data-latex=""}
+**NOTE**: there should be some folders named **original** within the data. These will have the *raw* data used for the modelling scripts that is obtained along the tutorial. Do not change these folders.
+:::
+
+The **data** folder should have data organised in three folders
+ 
+* data
+    * other : Accessory data need for some scripts
+        1. World countries shapefile from [NaturalEarth](https://www.naturalearthdata.com/)
+        2. Iberian Peninsula shapefile (processed from above file)
+    * rasters: Here are the predictor variables to be used in the modelling process and where the processed rasters will be saved.
+        * original: original *raw* data (obtained in chapter 2 and 5).
+            * climate: will store 19 Bioclimatic variables for present and future predictions.
+            * evi: Enhanced Vegetation Index obtained from the [OpenGeoHub Foundation](https://opengeohub.org/) though OpenLandMap.
+                
+    * species: Species data as downloaded from [GBIF](www.gbif.org) and where processed presence data will be saved
+        * original: Should have 3 zip files (one for each species of viper) as downloaded from GBIF and the extracted CSV text file with data and correctly named with species name (Vaspis, Vlatastei, Vseoanei).
+ 
+ The Bioclimatic climate variables are processed from monthly climate data (monthly minimum, mean and maximum temperatures and monthly precipitation) and coded as follows:
+
+* BIO1: Annual Mean Temperature
+* BIO2: Mean Diurnal Range (Mean of monthly (max temp - min temp))
+* BIO3: Isothermality (BIO2/BIO7) (×100)
+* BIO4: Temperature Seasonality (standard deviation ×100)
+* BIO5: Max Temperature of Warmest Month
+* BIO6: Min Temperature of Coldest Month
+* BIO7: Temperature Annual Range (BIO5-BIO6)
+* BIO8: Mean Temperature of Wettest Quarter
+* BIO9: Mean Temperature of Driest Quarter
+* BIO10: Mean Temperature of Warmest Quarter
+* BIO11: Mean Temperature of Coldest Quarter
+* BIO12: Annual Precipitation
+* BIO13: Precipitation of Wettest Month
+* BIO14: Precipitation of Driest Month
+* BIO15: Precipitation Seasonality (Coefficient of Variation)
+* BIO16: Precipitation of Wettest Quarter
+* BIO17: Precipitation of Driest Quarter
+* BIO18: Precipitation of Warmest Quarter
+* BIO19: Precipitation of Coldest Quarter
+
+The EVI is an index derived from satellite imagery that reflects landscape productivity related to vegetation content by measuring the *greenness*. The original data is bi-monthly summarized (resulting in 1 variable each pair of month), and in this case, it has been further summarized into a single file representing the annual maximum value achieve for 2020.
+ 
+Species data were collected from GBIF without any filtering. The doi of the data citation are:
+
+* *V. aspis*: [doi:10.15468/dl.wmv6q6](https://www.gbif.org/occurrence/download/0008127-240506114902167)
+* *V. latastei*: [doi:10.15468/dl.fa23t9](https://www.gbif.org/occurrence/download/0008135-240506114902167)
+* *V. seoanei*: [doi:10.15468/dl.cvfxu6](https://www.gbif.org/occurrence/download/0008133-240506114902167)
+
+
+All scripts start by setting the **working directory**. This is important because all paths in the scripts are relative to this directory. For example, if you placed your folder "Practical_EcoMod" on the desktop, the paths would be:
+
+* Windows: C:\\Users\\Peter\\Desktop\\Practical_EcoMod
+* Mac /Users/Peter/Desktop/Practical_EcoMod
+* Linux: /home/peter/Desktop/Practical_EcoMod
+
+therefore the full path to the file `data/other/iberia.shp` would be:
+
+* Windows: C:\\Users\\Peter\\Desktop\\Practical_EcoMod\\data\\other\\iberia.shp 
+* Mac /Users/Peter/Desktop/Practical_EcoMod/data/other/iberia.shp 
+* Linux: /home/peter/Desktop/Practical_EcoMod/data/other/iberia.shp 
+
+by setting the working directory as:
+
+* Windows (notice the use of double \\\\ ):
+```{r , eval=FALSE}
+setwd("C:\\Users\\Peter\\Desktop\\Practical_EcoMod")
+```
+* Mac :
+```{r , eval=FALSE}
+setwd("/Users/Peter/Desktop/Practical_EcoMod")
+```
+* Linux :
+```{r , eval=FALSE}
+setwd("/home/peter/Desktop/Practical_EcoMod")
+```
+
+Once the working directory is set, all files can be referenced relative to this directory. For example, instead of providing the full path to the file, you can simply use the relative path`data/other/iberia.shp` for R to locate the file.
+
+Each individual script begins by setting this working directory, but in this document, this step is omitted after being set once here.
+

@@ -1,0 +1,23 @@
+---
+title: "Ecological Niche Modelling"
+subtitle: "A tutorial"
+author: Pedro Tarroso (FCUP / BIOPOLIS-CIBIO)
+date: "21-05-2024"
+---
+# Preamble {-}
+This guide will help you build ecological niche models using the R package biomod2. It provides a basic guide for data preparation, model building, and ensemble.
+
+The purpose of this text is to support the practical classes associated with the Ecological Modelling course and to serve as a guide for the code in the scripts. The guide's structure follows the structure of the code provided in the practical classes, with additional information to help students follow along more easily.
+
+The study system is composed of three related species of European vipers: *Vipera aspis*, *Vipera latastei*, and *Vipera seoanei*, which meet in the Iberian Peninsula in a narrow three-way contact zone. In this guide, we will model each of these species and predict the contact zone where the three vipers intersect. Reptiles are often considered good study systems for ecological niche modeling because they rely on external factors such as temperature to regulate their internal temperature. Most of our predictor variables will be climate-related, but we will also include a vegetation-related variable. Since climate variables are available for different time periods, we will use ecological niche models to answer the following question:
+
+- How will climate change impact the contact zone between the three vipers in Iberia?
+
+Although the code is divided into several scripts for logical clarity, it could also be written as a single long script. In this document, I have opted to divide the chapters according to each script. For example, script 01 will be discussed in chapter 1, and so on.
+
+**Disclaimer**: Many methods and processes have been simplified for teaching purposes. While the code provides a basic and correct modeling approach, it may lack certain details and additional efforts needed to make the models more robust. These points will be noted where applicable in the text.
+
+::: {.noteblock data-latex=""}
+**NOTE**: This is a work in progress. If you find any errors, please comment and send them back to me!
+:::
+

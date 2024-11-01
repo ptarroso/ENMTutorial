@@ -1,0 +1,108 @@
+# Chapter 5 - Prepare projection variables
+
+Our initial question is about the contact zone between three species of vipers in the Iberian Peninsula. Although the original distributions of two of the species, *Vipera aspis* and *Vipera latastei* extend beyond the Iberian Peninsula, we don't need the final projections to cover the full extent of their distributions. To answer our question, we only need predictions for the Iberian Peninsula.
+
+In this chapter, we will prepare the variables for model projection. This includes current climate variables and NDVI, as well as future climate predictions for the same selected variables used in model training (Chapter 4). The projection area is defined as the Iberian Peninsula. We will crop and mask the variables to show data only for the Iberian Peninsula.
+
+A mandatory detail is that all groups of projection variables must have the same layer names as those used in model training so that the models can find the respective variables to produce predictions.
+
+The names we have are:
+
+* evi
+* BIO_8
+* BIO_3 
+* BIO_12
+* BIO_1
+
+Keep in mind that NDVI is a static variable in this scheme, meaning we don't have future projections of change for NDVI, so we use the same variable for all datasets. This approach is not usually done, as NDVI is very susceptible to changes due to climate change and human activity. Therefore, we are assuming that the habitat, for which we use NDVI as a surrogate, is stable over time. Variables like elevation, or derived variables like slope, are more easily assumed to be static.
+
+Again, we only need `terra` library for this chapter, and `geodata` to download future climate layers at the end of the chapter.
+```{r, results=FALSE, message=FALSE, warning=FALSE}
+library(terra)
+library(geodata)
+```
+
+To crop and cut the rasters, we use the Iberian Peninsula shapefile
+
+```{r}
+# Open Iberia shape file 
+v <- vect("data/other/iberia.shp")
+```
+
+## Prepare current dataset for projection 
+
+We open the current data set that we prepare in chapter 4. 
+
+```{r}
+# Open current data rasters
+vars <- rast("data/rasters/final_vars.tif")
+```
+
+We use the Iberian Peninsula shapefile to crop and mask the rasters. Cropping means reducing the extent, while masking is used to define No Data for all pixels outside the Iberian Peninsula.
+
+```{r}
+# Cut Current data and save
+vars <- crop(vars, v, mask=TRUE)
+```
+
+The current dataset for projection is ready, and we can write it to a file. All projection files will be saved in the *data/rasters* folder, and filenames will start with a "proj_" prefix.
+
+```{r}
+writeRaster(vars, "data/rasters/proj_current.tif", overwrite=TRUE)
+```
+
+## Prepare future climate projections
+
+Climate projections add extra complexity because there are many variants. As it is difficult to predict future climate, Global Circulation Models (GCMs) are given different scenarios for possible paths of societal behavior towards greenhouse gas production. These scenarios are called the Shared Socioeconomic Pathways (SSPs) and range from maintaining the current trend of emissions (worst-case scenario) to maintaining and even reducing emissions (best-case scenario). This allows us to predict climate over a range of conditions that we should consider in our niche model projections. Therefore, we can project niche models to different GCMs, different SSPs, and different time periods.
+
+In this tutoral we will project the models to
+* One single GCM (mpi-esm1-2-hr)
+* Two SSPS (ssp126 and ssp585)
+* Three time periods (2011-2040, 2041-2070, 2071-2100)
+
+This result in a combination of 1x2x3=6 model projections.
+
+All *raw* future climate rasters will be saved in the folder *data/rasters/original/climate*. 
+
+The easiest way to process all data  is to loop over AGES and SSPs to produce all combinations of projections. This will allow to crop and mask all needed projections variables but it requires a nested *for* loop. 
+
+First we can set some objects with needed information:
+
+```{r}
+ages <- c("2021-2040", "2041-2060", "2061-2080")
+scenarios <- c("126", "585")
+
+# bioclimatic in the same order as in vars to simplify
+bios <- c("BIO_8", "BIO_3", "BIO_12", "BIO_1")
+```
+
+We can now loop over ages and ssp scenarios.
+The process inside the nested loop is:
+
+1. DowNload the dataset for the combination of GCM model + age + ssp (~10km spatial resolution) using `geodata` and writing to *data/rasters/original*.
+2. Crop the rasters to the study area (same extent as `vars`).
+3. Rename layers to follow our name convention.
+4. Select only the variables of interest from the 19 bioclimate variables.
+5. Join the evi (static) to the set of selected bioclimate variables
+6. Write the produced raster with the 4 layers in the *data/rasters/* folder and following a filename convention that starts by *proj_age_ssp* in `TIF` format.
+
+```{r}
+for (age in ages) {
+    for (ssp in scenarios) {
+        # download and rename
+        clim_fut <- cmip6_world(model='MPI-ESM1-2-HR', ssp=ssp, time=age, var='bioc', res=5, path='data/rasters/original')
+        clim_fut <- crop(clim_fut, vars[[1]], mask=TRUE)
+        names(clim_fut) <- paste0("BIO_", 1:19)
+        #filter the selected vars
+        clim_fut <- clim_fut[[bios]]
+        # merge with evi
+        fut <- c(vars[["evi"]], clim_fut)
+        # Write raster to file        
+        writeRaster(fut, paste0("data/rasters/proj_", age, "_", ssp, ".tif"), overwrite=TRUE)
+    }
+}
+
+```
+
+At the end  of this loop, we should have 6 projection rasters for future time periods plus 1 projection for current period.
+
