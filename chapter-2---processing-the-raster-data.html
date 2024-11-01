@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Chapter 2 - Processing the raster data | Ecological Niche Modelling</title>
+  <meta name="description" content="3 Chapter 2 - Processing the raster data | Ecological Niche Modelling" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Chapter 2 - Processing the raster data | Ecological Niche Modelling" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Chapter 2 - Processing the raster data | Ecological Niche Modelling" />
+  
+  
+  
+
+<meta name="author" content="Pedro Tarroso (FCUP / BIOPOLIS-CIBIO)" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chapter-1---the-presence-data-housekeeping.html"/>
+<link rel="next" href="chapter-3---final-optimization-of-presence-data.html"/>
+<script src="assets/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="assets/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="assets/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="assets/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preamble</a></li>
+<li class="chapter" data-level="1" data-path="course-folder-structure-and-data.html"><a href="course-folder-structure-and-data.html"><i class="fa fa-check"></i><b>1</b> Course folder structure and data</a></li>
+<li class="chapter" data-level="2" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html"><i class="fa fa-check"></i><b>2</b> Chapter 1 - The presence data housekeeping</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-rows-with-missing-coordinates"><i class="fa fa-check"></i><b>2.1</b> Remove rows with missing coordinates</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-rows-that-fail-cleaning-tests"><i class="fa fa-check"></i><b>2.2</b> Remove rows that fail cleaning tests</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-rows-based-on-additional-gbif-information"><i class="fa fa-check"></i><b>2.3</b> Remove rows based on additional GBIF information</a></li>
+<li class="chapter" data-level="2.4" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-duplicated-coordinates"><i class="fa fa-check"></i><b>2.4</b> Remove duplicated coordinates</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#check-map"><i class="fa fa-check"></i><b>2.5</b> Check map</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#save-the-new-data"><i class="fa fa-check"></i><b>2.6</b> Save the new data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html"><i class="fa fa-check"></i><b>3</b> Chapter 2 - Processing the raster data</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html#general-layers"><i class="fa fa-check"></i><b>3.1</b> General layers</a></li>
+<li class="chapter" data-level="3.2" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html#processing-climate-layers"><i class="fa fa-check"></i><b>3.2</b> Processing climate layers</a></li>
+<li class="chapter" data-level="3.3" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html#process-evi"><i class="fa fa-check"></i><b>3.3</b> Process EVI</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="chapter-3---final-optimization-of-presence-data.html"><a href="chapter-3---final-optimization-of-presence-data.html"><i class="fa fa-check"></i><b>4</b> Chapter 3 - Final optimization of presence data</a></li>
+<li class="chapter" data-level="5" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html"><i class="fa fa-check"></i><b>5</b> Chapter 4 - Variable selection for modelling</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html#define-a-training-area-with-a-buffer"><i class="fa fa-check"></i><b>5.1</b> Define a training area with a buffer</a></li>
+<li class="chapter" data-level="5.2" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html#calculate-pairwise-correlations"><i class="fa fa-check"></i><b>5.2</b> Calculate pairwise correlations</a></li>
+<li class="chapter" data-level="5.3" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html#clustering-and-selection"><i class="fa fa-check"></i><b>5.3</b> Clustering and selection</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="chapter-5---prepare-projection-variables.html"><a href="chapter-5---prepare-projection-variables.html"><i class="fa fa-check"></i><b>6</b> Chapter 5 - Prepare projection variables</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="chapter-5---prepare-projection-variables.html"><a href="chapter-5---prepare-projection-variables.html#prepare-current-dataset-for-projection"><i class="fa fa-check"></i><b>6.1</b> Prepare current dataset for projection</a></li>
+<li class="chapter" data-level="6.2" data-path="chapter-5---prepare-projection-variables.html"><a href="chapter-5---prepare-projection-variables.html#prepare-future-climate-projections"><i class="fa fa-check"></i><b>6.2</b> Prepare future climate projections</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html"><i class="fa fa-check"></i><b>7</b> Chapter 6 - Model building</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#model-building"><i class="fa fa-check"></i><b>7.1</b> Model building</a></li>
+<li class="chapter" data-level="7.2" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#repeat-for-the-other-two-species"><i class="fa fa-check"></i><b>7.2</b> Repeat for the other two species</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#vipera-latastei"><i class="fa fa-check"></i><b>7.2.1</b> <em>Vipera latastei</em></a></li>
+<li class="chapter" data-level="7.2.2" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#vipera-seoanei"><i class="fa fa-check"></i><b>7.2.2</b> <em>Vipera seoanei</em></a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#final-considerations-for-the-modelling"><i class="fa fa-check"></i><b>7.3</b> Final considerations for the modelling</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html"><i class="fa fa-check"></i><b>8</b> Chapter 7 - Model ensemble</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html#ensembling-vipera-aspis"><i class="fa fa-check"></i><b>8.1</b> Ensembling <em>Vipera aspis</em></a></li>
+<li class="chapter" data-level="8.2" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html#ensembling-vipera-latastei"><i class="fa fa-check"></i><b>8.2</b> Ensembling <em>Vipera latastei</em></a></li>
+<li class="chapter" data-level="8.3" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html#ensembling-vipera-seoanei"><i class="fa fa-check"></i><b>8.3</b> Ensembling <em>Vipera seoanei</em></a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="final-considerations-for-the-ensembling.html"><a href="final-considerations-for-the-ensembling.html"><i class="fa fa-check"></i><b>9</b> Final considerations for the ensembling</a></li>
+<li class="chapter" data-level="10" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html"><i class="fa fa-check"></i><b>10</b> Chapter 8 - Model projections</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#projecting-vipera-aspis-models"><i class="fa fa-check"></i><b>10.1</b> Projecting <em>Vipera aspis</em> models</a></li>
+<li class="chapter" data-level="10.2" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#projecting-vipera-latastei-models"><i class="fa fa-check"></i><b>10.2</b> Projecting <em>Vipera latastei</em> models</a></li>
+<li class="chapter" data-level="10.3" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#projecting-vipera-latastei-models-1"><i class="fa fa-check"></i><b>10.3</b> Projecting <em>Vipera latastei</em> models</a></li>
+<li class="chapter" data-level="10.4" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#final-considerations-for-projections"><i class="fa fa-check"></i><b>10.4</b> Final considerations for projections</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="chapter-9---finally-answering-the-question.html"><a href="chapter-9---finally-answering-the-question.html"><i class="fa fa-check"></i><b>11</b> Chapter 9 - Finally, answering the question</a></li>
+<li class="chapter" data-level="12" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>12</b> Conclusion</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Ecological Niche Modelling</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter-2---processing-the-raster-data" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">3</span> Chapter 2 - Processing the raster data<a href="chapter-2---processing-the-raster-data.html#chapter-2---processing-the-raster-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this chapter, we are going to obtain and process the predictors in the <em>data/raster</em> folder. In the process of building an ecological niche model, we need to select and retrieve variables related to the niche of our species of interest and our specific hypothesis or question. Often, these variables can be found in several public databases (e.g., WorldClim climate, satellite products) or other sources, but they usually require some level of processing. Our goal here is to obtain these variable and perform some GIS raster processing inside R to ensure uniform geographical properties among the raster layers. These steps include:</p>
+<ul>
+<li>Setting the same extent for all layers (aligning the rasters)</li>
+<li>Setting the same resolution (in this case, the study will be performed at a 10km resolution)</li>
+<li>Applying the same No Data mask to all layers</li>
+</ul>
+<p>Defining the resolution and extent of the study area requires careful analysis. In this example, we set an extent that covers the combined distribution of the three species. We opt for a 10km resolution because many presence data from national atlases and other sources are available at this resolution. This allows us to use these data in our model (in the previous chapter, we removed points that had an uncertainty higher than 10km). We also choose this resolution for practical reasons. A very high resolution would require much more processing time and storage space, which may not be feasible within the available time to run this example. However, the resolution should always be carefully balanced between data availability (both predictors and presence data), processing limitations, and, most importantly, the requirements of the study system. For example, it might not make sense to study elephant distributions at a very high spatial resolution.</p>
+<p>Note that in this chapter we are limiting the training area, i.e., the area where the models will retrieve presence and absence data to calibrate and find the optimal statistical solution. Later, in chapter 5, we will process the variables to focus only on the area of model projections, which is the Iberian Peninsula.</p>
+<p>For this chapter, we need to obtain the 19 bioclimatic variables and the EVI variable. All files should be downloaded to <em>data/rasters/original</em> under respestive folders <em>climate and </em>evi*.</p>
+<p>The <code>terra</code> library is essential for niche modeling. It provides functionality to handle spatial data such as rasters and vectors, as well as perform geoprocessing. This transforms R into a very competent GIS tool. The library <em>geodata</em> provides access to climate data from <a href="www.worldclim.org">WorldClim</a> and other spatial data.</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="chapter-2---processing-the-raster-data.html#cb96-1" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb96-2"><a href="chapter-2---processing-the-raster-data.html#cb96-2" tabindex="-1"></a><span class="fu">library</span>(geodata)</span></code></pre></div>
+<div id="general-layers" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> General layers<a href="chapter-2---processing-the-raster-data.html#general-layers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Throughout the tutorial, we will define a training area and a projection area for the models. We will explore each in detail later, but here’s a brief overview: the training area is where we gather data to build the models, usually covering the species’ distribution range. The projection area is where we aim to generate model predictions. In this case, the training area includes most of Western and Central Europe and part of North Africa, aligning with our focal species’ distribution. The projection area is the Iberian Peninsula (Portugal and Spain), where we will analyze potential contact zones.</p>
+<p>Obtain a vector of country polygons with geodata and save it in the appropriate folder.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="chapter-2---processing-the-raster-data.html#cb97-1" tabindex="-1"></a>countries <span class="ot">&lt;-</span> <span class="fu">world</span>(<span class="at">path =</span> <span class="st">&quot;data/other&quot;</span>)</span></code></pre></div>
+<p>Now we use the information of the countries within the layer to get our projection area. Since with want only the continental landmass, we have to separate (disaggregate) the polygons with <code>disagg</code> command and keep the two largest polygons.</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="chapter-2---processing-the-raster-data.html#cb98-1" tabindex="-1"></a>iberia <span class="ot">&lt;-</span> countries[countries<span class="sc">$</span>GID_0 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;PRT&quot;</span>, <span class="st">&quot;ESP&quot;</span>)]</span>
+<span id="cb98-2"><a href="chapter-2---processing-the-raster-data.html#cb98-2" tabindex="-1"></a>iberia <span class="ot">&lt;-</span> <span class="fu">disagg</span>(iberia)</span>
+<span id="cb98-3"><a href="chapter-2---processing-the-raster-data.html#cb98-3" tabindex="-1"></a>areas <span class="ot">&lt;-</span> <span class="fu">expanse</span>(iberia)</span>
+<span id="cb98-4"><a href="chapter-2---processing-the-raster-data.html#cb98-4" tabindex="-1"></a>iberia <span class="ot">&lt;-</span> iberia[<span class="fu">order</span>(areas, <span class="at">decreasing=</span><span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]]</span>
+<span id="cb98-5"><a href="chapter-2---processing-the-raster-data.html#cb98-5" tabindex="-1"></a><span class="fu">writeVector</span>(iberia, <span class="st">&quot;data/other/iberia.shp&quot;</span>, <span class="at">overwrite=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+</div>
+<div id="processing-climate-layers" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Processing climate layers<a href="chapter-2---processing-the-raster-data.html#processing-climate-layers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>First, we are going to obtain the layers from Worldclim through geodata library. These are the 19 bioclimatic variables (see above for details). The function allow us to set a priori the resolution we want (5 arc minutes = 0.083333(3) degrees ~ 10km) and the path where to write them.</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="chapter-2---processing-the-raster-data.html#cb99-1" tabindex="-1"></a>clim <span class="ot">&lt;-</span> <span class="fu">worldclim_global</span>(<span class="at">var =</span> <span class="st">&#39;bio&#39;</span>, <span class="at">res =</span> <span class="dv">5</span>, <span class="at">path =</span> <span class="st">&#39;data/rasters/original&#39;</span>)</span>
+<span id="cb99-2"><a href="chapter-2---processing-the-raster-data.html#cb99-2" tabindex="-1"></a><span class="fu">plot</span>(clim)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>The original layer names are lengthy and complex. Since we’ll frequently reference these variables by name throughout the tutorial, we’ll simplify them with easily identifiable names. Given that we’re opening all files sequentially from bio1 to bio19, we can rename the layers accordingly.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="chapter-2---processing-the-raster-data.html#cb100-1" tabindex="-1"></a><span class="fu">names</span>(clim)</span></code></pre></div>
+<pre><code>##  [1] &quot;wc2.1_5m_bio_1&quot;  &quot;wc2.1_5m_bio_2&quot;  &quot;wc2.1_5m_bio_3&quot;  &quot;wc2.1_5m_bio_4&quot; 
+##  [5] &quot;wc2.1_5m_bio_5&quot;  &quot;wc2.1_5m_bio_6&quot;  &quot;wc2.1_5m_bio_7&quot;  &quot;wc2.1_5m_bio_8&quot; 
+##  [9] &quot;wc2.1_5m_bio_9&quot;  &quot;wc2.1_5m_bio_10&quot; &quot;wc2.1_5m_bio_11&quot; &quot;wc2.1_5m_bio_12&quot;
+## [13] &quot;wc2.1_5m_bio_13&quot; &quot;wc2.1_5m_bio_14&quot; &quot;wc2.1_5m_bio_15&quot; &quot;wc2.1_5m_bio_16&quot;
+## [17] &quot;wc2.1_5m_bio_17&quot; &quot;wc2.1_5m_bio_18&quot; &quot;wc2.1_5m_bio_19&quot;</code></pre>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="chapter-2---processing-the-raster-data.html#cb102-1" tabindex="-1"></a><span class="fu">names</span>(clim) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;BIO_&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">19</span>)</span>
+<span id="cb102-2"><a href="chapter-2---processing-the-raster-data.html#cb102-2" tabindex="-1"></a><span class="fu">plot</span>(clim)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>The study area (training area for models) needs to encompass the full distribution of the three species. We could either check the extreme coordinates of the presence data or use coarse distribution polygons (e.g., IUCN distributions) to define the study area. Here, we opt for a simpler approach by defining a rectangle that we know includes the species’ distributions. This rectangle extends from -11.0 to 27.0 degrees longitude and from 25 to 55 degrees latitude.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="chapter-2---processing-the-raster-data.html#cb103-1" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">ext</span>(<span class="sc">-</span><span class="dv">11</span>, <span class="dv">27</span>, <span class="dv">25</span>, <span class="dv">55</span>)</span>
+<span id="cb103-2"><a href="chapter-2---processing-the-raster-data.html#cb103-2" tabindex="-1"></a><span class="fu">plot</span>(clim[[<span class="dv">1</span>]])</span>
+<span id="cb103-3"><a href="chapter-2---processing-the-raster-data.html#cb103-3" tabindex="-1"></a><span class="fu">plot</span>(e, <span class="at">add=</span>T)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p>We can now use the rectangle extent to crop the climate layers.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="chapter-2---processing-the-raster-data.html#cb104-1" tabindex="-1"></a>clim <span class="ot">&lt;-</span> <span class="fu">crop</span>(clim, e)</span>
+<span id="cb104-2"><a href="chapter-2---processing-the-raster-data.html#cb104-2" tabindex="-1"></a><span class="fu">plot</span>(clim)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+</div>
+<div id="process-evi" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Process EVI<a href="chapter-2---processing-the-raster-data.html#process-evi" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Enhanced Vegetation Index (EVI) indicates land productivity and serves here as a continuous variable, acting as a proxy for habitat. We will use 2020 data available from the <a href="www.opengeohub.org">OpenGeoHub website</a>, which hosts a variety of free spatial data useful for ecological niche modeling. The <a href="https://stac.openlandmap.org/evi_mod13q1.tmwm.inpaint/collection.json">EVI data</a> is global with a 250m resolution, resulting in large file sizes. We need to manually download the six files for 2020 and save them in the data/rasters/evi folder. Once processed, these files can be deleted to save space. The links to each file are provided in the table.</p>
+<table>
+<colgroup>
+<col width="44%" />
+<col width="55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Month</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://s3.openlandmap.org/arco/evi_mod13q1.tmwm.inpaint_p.90_250m_s_20200101_20200228_go_epsg.4326_v20230608.tif">evi_mod13q1.tmwm.inpaint_p.90_250m_s_20200101_20200228_go_epsg.4326_v20230608</a></td>
+<td>Jan-Feb</td>
+</tr>
+<tr class="even">
+<td><a href="https://s3.openlandmap.org/arco/evi_mod13q1.tmwm.inpaint_p.90_250m_s_20200301_20200430_go_epsg.4326_v20230608.tif">evi_mod13q1.tmwm.inpaint_p.90_250m_s_20200301_20200430_go_epsg.4326_v20230608</a></td>
+<td>Mar-Apr</td>
+</tr>
+<tr class="odd">
+<td><a href="https://s3.openlandmap.org/arco/evi_mod13q1.tmwm.inpaint_p.90_250m_s_20200501_20200630_go_epsg.4326_v20230608.tif">evi_mod13q1.tmwm.inpaint_p.90_250m_s_20200501_20200630_go_epsg.4326_v20230608</a></td>
+<td>May-Jun</td>
+</tr>
+<tr class="even">
+<td><a href="https://s3.openlandmap.org/arco/evi_mod13q1.tmwm.inpaint_p.90_250m_s_20200701_20200831_go_epsg.4326_v20230608.tif">evi_mod13q1.tmwm.inpaint_p.90_250m_s_20200701_20200831_go_epsg.4326_v20230608</a></td>
+<td>Jul-Aug</td>
+</tr>
+<tr class="odd">
+<td><a href="https://s3.openlandmap.org/arco/evi_mod13q1.tmwm.inpaint_p.90_250m_s_20200901_20201031_go_epsg.4326_v20230608.tif">evi_mod13q1.tmwm.inpaint_p.90_250m_s_20200901_20201031_go_epsg.4326_v20230608</a></td>
+<td>Sep-Oct</td>
+</tr>
+<tr class="even">
+<td><a href="https://s3.openlandmap.org/arco/evi_mod13q1.tmwm.inpaint_p.90_250m_s_20201101_20201231_go_epsg.4326_v20230608.tif">evi_mod13q1.tmwm.inpaint_p.90_250m_s_20201101_20201231_go_epsg.4326_v20230608</a></td>
+<td>Nov-Dec</td>
+</tr>
+</tbody>
+</table>
+<p>After downloading to the correct folder, we can open the rasters in R.</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="chapter-2---processing-the-raster-data.html#cb105-1" tabindex="-1"></a>evifiles <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">&quot;data/rasters/original/evi/&quot;</span>, <span class="st">&quot;*tif&quot;</span>, <span class="at">full.names=</span><span class="cn">TRUE</span>)</span>
+<span id="cb105-2"><a href="chapter-2---processing-the-raster-data.html#cb105-2" tabindex="-1"></a>evi <span class="ot">&lt;-</span> <span class="fu">rast</span>(evifiles)</span></code></pre></div>
+<p>As they are huge files, to avoid processing unneeded areas, we crop to the study area defined above.</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="chapter-2---processing-the-raster-data.html#cb106-1" tabindex="-1"></a>evi <span class="ot">&lt;-</span> <span class="fu">crop</span>(evi, e)</span></code></pre></div>
+<pre><code>## |---------|---------|---------|---------|=========================================                                          </code></pre>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="chapter-2---processing-the-raster-data.html#cb108-1" tabindex="-1"></a><span class="fu">plot</span>(evi)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p>We need to further summarize the data into a single file by obtaining the maximum EVI value per pixel for the year 2020. We can use the <code>app</code> function from terra, which applies a function to summarize all layers on a pixel-by-pixel basis.</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="chapter-2---processing-the-raster-data.html#cb109-1" tabindex="-1"></a>evi <span class="ot">&lt;-</span> <span class="fu">app</span>(evi, max, <span class="at">na.rm=</span>T)</span></code></pre></div>
+<pre><code>## |---------|---------|---------|---------|=========================================                                          </code></pre>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="chapter-2---processing-the-raster-data.html#cb111-1" tabindex="-1"></a><span class="fu">plot</span>(evi)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-35-1.png" width="672" />
+We still need to change the resolution of the EVI to match the climate data. However, the original resolution of the EVI (0.002245788 degrees) does not allow aggregation by an integer factor. Therefore, we need to use another function to resample the data to a new resolution. By providing the climate raster to this function, it resamples the EVI to match the exact spatial properties of the climate dataset. We use the “average” method to the resampling process, so each group of pixels is summarised by average to the new, larger one.</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="chapter-2---processing-the-raster-data.html#cb112-1" tabindex="-1"></a>evi <span class="ot">&lt;-</span> <span class="fu">resample</span>(evi, clim, <span class="st">&quot;average&quot;</span>)</span>
+<span id="cb112-2"><a href="chapter-2---processing-the-raster-data.html#cb112-2" tabindex="-1"></a><span class="fu">plot</span>(evi)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p>We can also update the layer name:</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="chapter-2---processing-the-raster-data.html#cb113-1" tabindex="-1"></a><span class="fu">names</span>(evi)</span></code></pre></div>
+<pre><code>## [1] &quot;max&quot;</code></pre>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="chapter-2---processing-the-raster-data.html#cb115-1" tabindex="-1"></a><span class="fu">names</span>(evi) <span class="ot">&lt;-</span> <span class="st">&quot;evi&quot;</span></span></code></pre></div>
+<p>Although it is not mandatory, it is good practice to have the same No Data mask for all variables used in modeling. We need to check the No Data areas of each layer and set them to a common area. The climate layers already share the same No Data mask since they were created using the same process. However, it is not guaranteed that the EVI has the same mask. Here, any pixel set as No Data in a single layer will be set as No Data in all layers.</p>
+<p>Let’s extract and check the combination of all No Data masks. The <code>app</code> command applies a function (in this case, the <code>sum</code> function) to all corresponding pixels in all layers. By using <code>is.na()</code>, we get TRUE or FALSE if the pixel is NA or not in each layer. By summing those values, we will know in how many layers that pixel is set to NA.</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="chapter-2---processing-the-raster-data.html#cb116-1" tabindex="-1"></a>na.clim <span class="ot">&lt;-</span> <span class="fu">app</span>(<span class="fu">is.na</span>(clim), sum)</span>
+<span id="cb116-2"><a href="chapter-2---processing-the-raster-data.html#cb116-2" tabindex="-1"></a><span class="fu">plot</span>(na.clim)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p>As expected, the pixel is either set to NA in all 19 layers or it has data in all.</p>
+<p>Now we sum the EVI No Data to check if there are other pixels with No Data. If so, we will have to set a common mask for all layers.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="chapter-2---processing-the-raster-data.html#cb117-1" tabindex="-1"></a>na.evi <span class="ot">&lt;-</span> <span class="fu">is.na</span>(evi)</span>
+<span id="cb117-2"><a href="chapter-2---processing-the-raster-data.html#cb117-2" tabindex="-1"></a><span class="fu">plot</span>(na.evi)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p>Plot the sum of both masks:</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="chapter-2---processing-the-raster-data.html#cb118-1" tabindex="-1"></a><span class="fu">plot</span>(na.clim <span class="sc">+</span> na.evi)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p>Notice that a few pixels have the value of 1. This means that only the EVI had those pixels set as No Data. We need to set a final mask where we detect pixels set to NA in, at least, one layer and apply the mask to all rasters processed.</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="chapter-2---processing-the-raster-data.html#cb119-1" tabindex="-1"></a>na.mask <span class="ot">&lt;-</span> (na.clim <span class="sc">+</span> na.evi) <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb119-2"><a href="chapter-2---processing-the-raster-data.html#cb119-2" tabindex="-1"></a><span class="fu">plot</span>(na.mask)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="chapter-2---processing-the-raster-data.html#cb120-1" tabindex="-1"></a>clim[na.mask] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb120-2"><a href="chapter-2---processing-the-raster-data.html#cb120-2" tabindex="-1"></a>evi[na.mask] <span class="ot">&lt;-</span> <span class="cn">NA</span></span></code></pre></div>
+<p>We have finished the processing of the raster variables. The climate and EVI data sets are now fully aligned and with the same resolution. We just need to save them into different TIF files<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="chapter-2---processing-the-raster-data.html#cb121-1" tabindex="-1"></a><span class="co"># Write Rasters to file</span></span>
+<span id="cb121-2"><a href="chapter-2---processing-the-raster-data.html#cb121-2" tabindex="-1"></a><span class="co"># Chelsa is a single file with 19 bands/layers</span></span>
+<span id="cb121-3"><a href="chapter-2---processing-the-raster-data.html#cb121-3" tabindex="-1"></a><span class="fu">writeRaster</span>(clim, <span class="st">&quot;data/rasters/climate.tif&quot;</span>, <span class="at">overwrite=</span><span class="cn">TRUE</span>)</span>
+<span id="cb121-4"><a href="chapter-2---processing-the-raster-data.html#cb121-4" tabindex="-1"></a><span class="co"># EVI is a single file with single band/layer</span></span>
+<span id="cb121-5"><a href="chapter-2---processing-the-raster-data.html#cb121-5" tabindex="-1"></a><span class="fu">writeRaster</span>(evi, <span class="st">&quot;data/rasters/evi.tif&quot;</span>, <span class="at">overwrite=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p>Note that these files a full raster georeferenced images. The images can be visualised as well in any GIS (e.g. QGIS).</p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="2">
+<li id="fn2"><p>We use the “overwrite=TRUE” just in the case some version of the files were already present and to avoid the error<a href="chapter-2---processing-the-raster-data.html#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chapter-1---the-presence-data-housekeeping.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter-3---final-optimization-of-presence-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"toolbar": {
+"position": "static"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

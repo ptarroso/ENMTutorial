@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>11 Chapter 9 - Finally, answering the question | Ecological Niche Modelling</title>
+  <meta name="description" content="11 Chapter 9 - Finally, answering the question | Ecological Niche Modelling" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="11 Chapter 9 - Finally, answering the question | Ecological Niche Modelling" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="11 Chapter 9 - Finally, answering the question | Ecological Niche Modelling" />
+  
+  
+  
+
+<meta name="author" content="Pedro Tarroso (FCUP / BIOPOLIS-CIBIO)" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chapter-8---model-projections.html"/>
+<link rel="next" href="conclusion.html"/>
+<script src="assets/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="assets/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="assets/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="assets/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preamble</a></li>
+<li class="chapter" data-level="1" data-path="course-folder-structure-and-data.html"><a href="course-folder-structure-and-data.html"><i class="fa fa-check"></i><b>1</b> Course folder structure and data</a></li>
+<li class="chapter" data-level="2" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html"><i class="fa fa-check"></i><b>2</b> Chapter 1 - The presence data housekeeping</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-rows-with-missing-coordinates"><i class="fa fa-check"></i><b>2.1</b> Remove rows with missing coordinates</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-rows-that-fail-cleaning-tests"><i class="fa fa-check"></i><b>2.2</b> Remove rows that fail cleaning tests</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-rows-based-on-additional-gbif-information"><i class="fa fa-check"></i><b>2.3</b> Remove rows based on additional GBIF information</a></li>
+<li class="chapter" data-level="2.4" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-duplicated-coordinates"><i class="fa fa-check"></i><b>2.4</b> Remove duplicated coordinates</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#check-map"><i class="fa fa-check"></i><b>2.5</b> Check map</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#save-the-new-data"><i class="fa fa-check"></i><b>2.6</b> Save the new data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html"><i class="fa fa-check"></i><b>3</b> Chapter 2 - Processing the raster data</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html#general-layers"><i class="fa fa-check"></i><b>3.1</b> General layers</a></li>
+<li class="chapter" data-level="3.2" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html#processing-climate-layers"><i class="fa fa-check"></i><b>3.2</b> Processing climate layers</a></li>
+<li class="chapter" data-level="3.3" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html#process-evi"><i class="fa fa-check"></i><b>3.3</b> Process EVI</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="chapter-3---final-optimization-of-presence-data.html"><a href="chapter-3---final-optimization-of-presence-data.html"><i class="fa fa-check"></i><b>4</b> Chapter 3 - Final optimization of presence data</a></li>
+<li class="chapter" data-level="5" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html"><i class="fa fa-check"></i><b>5</b> Chapter 4 - Variable selection for modelling</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html#define-a-training-area-with-a-buffer"><i class="fa fa-check"></i><b>5.1</b> Define a training area with a buffer</a></li>
+<li class="chapter" data-level="5.2" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html#calculate-pairwise-correlations"><i class="fa fa-check"></i><b>5.2</b> Calculate pairwise correlations</a></li>
+<li class="chapter" data-level="5.3" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html#clustering-and-selection"><i class="fa fa-check"></i><b>5.3</b> Clustering and selection</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="chapter-5---prepare-projection-variables.html"><a href="chapter-5---prepare-projection-variables.html"><i class="fa fa-check"></i><b>6</b> Chapter 5 - Prepare projection variables</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="chapter-5---prepare-projection-variables.html"><a href="chapter-5---prepare-projection-variables.html#prepare-current-dataset-for-projection"><i class="fa fa-check"></i><b>6.1</b> Prepare current dataset for projection</a></li>
+<li class="chapter" data-level="6.2" data-path="chapter-5---prepare-projection-variables.html"><a href="chapter-5---prepare-projection-variables.html#prepare-future-climate-projections"><i class="fa fa-check"></i><b>6.2</b> Prepare future climate projections</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html"><i class="fa fa-check"></i><b>7</b> Chapter 6 - Model building</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#model-building"><i class="fa fa-check"></i><b>7.1</b> Model building</a></li>
+<li class="chapter" data-level="7.2" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#repeat-for-the-other-two-species"><i class="fa fa-check"></i><b>7.2</b> Repeat for the other two species</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#vipera-latastei"><i class="fa fa-check"></i><b>7.2.1</b> <em>Vipera latastei</em></a></li>
+<li class="chapter" data-level="7.2.2" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#vipera-seoanei"><i class="fa fa-check"></i><b>7.2.2</b> <em>Vipera seoanei</em></a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#final-considerations-for-the-modelling"><i class="fa fa-check"></i><b>7.3</b> Final considerations for the modelling</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html"><i class="fa fa-check"></i><b>8</b> Chapter 7 - Model ensemble</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html#ensembling-vipera-aspis"><i class="fa fa-check"></i><b>8.1</b> Ensembling <em>Vipera aspis</em></a></li>
+<li class="chapter" data-level="8.2" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html#ensembling-vipera-latastei"><i class="fa fa-check"></i><b>8.2</b> Ensembling <em>Vipera latastei</em></a></li>
+<li class="chapter" data-level="8.3" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html#ensembling-vipera-seoanei"><i class="fa fa-check"></i><b>8.3</b> Ensembling <em>Vipera seoanei</em></a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="final-considerations-for-the-ensembling.html"><a href="final-considerations-for-the-ensembling.html"><i class="fa fa-check"></i><b>9</b> Final considerations for the ensembling</a></li>
+<li class="chapter" data-level="10" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html"><i class="fa fa-check"></i><b>10</b> Chapter 8 - Model projections</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#projecting-vipera-aspis-models"><i class="fa fa-check"></i><b>10.1</b> Projecting <em>Vipera aspis</em> models</a></li>
+<li class="chapter" data-level="10.2" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#projecting-vipera-latastei-models"><i class="fa fa-check"></i><b>10.2</b> Projecting <em>Vipera latastei</em> models</a></li>
+<li class="chapter" data-level="10.3" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#projecting-vipera-latastei-models-1"><i class="fa fa-check"></i><b>10.3</b> Projecting <em>Vipera latastei</em> models</a></li>
+<li class="chapter" data-level="10.4" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#final-considerations-for-projections"><i class="fa fa-check"></i><b>10.4</b> Final considerations for projections</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="chapter-9---finally-answering-the-question.html"><a href="chapter-9---finally-answering-the-question.html"><i class="fa fa-check"></i><b>11</b> Chapter 9 - Finally, answering the question</a></li>
+<li class="chapter" data-level="12" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>12</b> Conclusion</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Ecological Niche Modelling</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter-9---finally-answering-the-question" class="section level1 hasAnchor" number="11">
+<h1><span class="header-section-number">11</span> Chapter 9 - Finally, answering the question<a href="chapter-9---finally-answering-the-question.html#chapter-9---finally-answering-the-question" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this chapter, we will open all projection rasters created previously and analyze how these predictions can help identify sympatric areas for the three species. As the results showed, the models reveal different relationships with the predictors, resulting in distinct distributions. How do these potential distributions intersect with each other?</p>
+<p>We will use the terra package since most operations in this chapter involve geoprocessing with rasters. While any GIS software could be used, using terra allows us to automate some processes.</p>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="chapter-9---finally-answering-the-question.html#cb220-1" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code></pre></div>
+<p>We can also prepare some variables to loop over future periods, as we did before.</p>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="chapter-9---finally-answering-the-question.html#cb221-1" tabindex="-1"></a>ages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;2021-2040&quot;</span>, <span class="st">&quot;2041-2060&quot;</span>, <span class="st">&quot;2061-2080&quot;</span>)</span>
+<span id="cb221-2"><a href="chapter-9---finally-answering-the-question.html#cb221-2" tabindex="-1"></a>ssps <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;126&quot;</span>, <span class="st">&quot;585&quot;</span>)</span></code></pre></div>
+<p>We can begin by importing the rasters of the current projections for the three species. We divide by 1000 to get the projections in the range of 0 to 1.</p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="chapter-9---finally-answering-the-question.html#cb222-1" tabindex="-1"></a>va <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;models/Vaspis/proj_Current/proj_Current_Vaspis_ensemble.tif&quot;</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb222-2"><a href="chapter-9---finally-answering-the-question.html#cb222-2" tabindex="-1"></a>va <span class="ot">&lt;-</span> va <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb222-3"><a href="chapter-9---finally-answering-the-question.html#cb222-3" tabindex="-1"></a>vl <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;models/Vlatastei/proj_Current/proj_Current_Vlatastei_ensemble.tif&quot;</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb222-4"><a href="chapter-9---finally-answering-the-question.html#cb222-4" tabindex="-1"></a>vl <span class="ot">&lt;-</span> vl <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb222-5"><a href="chapter-9---finally-answering-the-question.html#cb222-5" tabindex="-1"></a>vs <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;models/Vseoanei/proj_Current/proj_Current_Vseoanei_ensemble.tif&quot;</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb222-6"><a href="chapter-9---finally-answering-the-question.html#cb222-6" tabindex="-1"></a>vs <span class="ot">&lt;-</span> vs <span class="sc">/</span> <span class="dv">1000</span></span></code></pre></div>
+<p>We can plot the maps:</p>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="chapter-9---finally-answering-the-question.html#cb223-1" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">1</span>))</span>
+<span id="cb223-2"><a href="chapter-9---finally-answering-the-question.html#cb223-2" tabindex="-1"></a><span class="fu">plot</span>(va, <span class="at">main=</span><span class="st">&quot;V. aspis&quot;</span>, <span class="at">range=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb223-3"><a href="chapter-9---finally-answering-the-question.html#cb223-3" tabindex="-1"></a><span class="fu">plot</span>(vl, <span class="at">main=</span><span class="st">&quot;V. latastei&quot;</span>, <span class="at">range=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb223-4"><a href="chapter-9---finally-answering-the-question.html#cb223-4" tabindex="-1"></a><span class="fu">plot</span>(vs, <span class="at">main=</span><span class="st">&quot;V. seoanei&quot;</span>, <span class="at">range=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
+<p>We need some processing to determine the sympatric zone between the vipers. Since we are using continuous probability maps, an easy way to estimate the maximum probability of finding all three species together is by calculating the product of the three maps. The potential maximum score would be 1, where all species have the highest probability, while any location with a probability of 0 for any species will have a sympatry probability of zero.</p>
+<p>Additionally, there are other methods to calculate sympatry. For instance, using the binary presence/absence maps produced earlier, the sum of all maps would provide a range of values from 0 to 3, indicating how many species are present at each location.</p>
+<p>Here, we will calculate the product of the probabilities:</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="chapter-9---finally-answering-the-question.html#cb224-1" tabindex="-1"></a>CZ <span class="ot">&lt;-</span> va<span class="sc">*</span>vl<span class="sc">*</span>vs</span>
+<span id="cb224-2"><a href="chapter-9---finally-answering-the-question.html#cb224-2" tabindex="-1"></a><span class="fu">names</span>(CZ) <span class="ot">&lt;-</span> <span class="st">&quot;Present&quot;</span></span>
+<span id="cb224-3"><a href="chapter-9---finally-answering-the-question.html#cb224-3" tabindex="-1"></a><span class="fu">plot</span>(CZ, <span class="at">main=</span> <span class="st">&quot;Current contact zone probability&quot;</span>)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-111-1.png" width="672" /></p>
+<p>We have to calculate the same for all combinations of age and ssp projections. For that we use the same style of nested loop we have been using. We will be adding layers to CZ raster with correct names, following the age_ssp order.</p>
+<p>The logic of the loop is the following:
+* for each combination of age and ssp:
+1. Reconstruct the general name of the file
+2. Reconstruct the path for <em>V aspis</em> projection file
+3. Import the raster and divide by 1000
+4. Reconstruct the path for <em>V latastei</em> projection file
+5. Import the raster and divide by 1000
+6. Reconstruct the path for <em>V seoanei</em> projection file
+7. Import the raster and divide by 1000
+8. Create the future prediction of contact zone as <code>futCZ</code>
+9. name the layer correctly with <em>age_ssp</em>
+10. Stack this layer to the CZ raster.</p>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="chapter-9---finally-answering-the-question.html#cb225-1" tabindex="-1"></a><span class="cf">for</span> (ssp <span class="cf">in</span> ssps) {</span>
+<span id="cb225-2"><a href="chapter-9---finally-answering-the-question.html#cb225-2" tabindex="-1"></a>    <span class="cf">for</span> (age <span class="cf">in</span> ages) {</span>
+<span id="cb225-3"><a href="chapter-9---finally-answering-the-question.html#cb225-3" tabindex="-1"></a>        nm <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;proj_&quot;</span>, age, <span class="st">&quot;_&quot;</span>, ssp)</span>
+<span id="cb225-4"><a href="chapter-9---finally-answering-the-question.html#cb225-4" tabindex="-1"></a>        vaFile <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;models/Vaspis/&quot;</span>, nm, <span class="st">&quot;/&quot;</span>, nm, <span class="st">&quot;_Vaspis_ensemble.tif&quot;</span>)</span>
+<span id="cb225-5"><a href="chapter-9---finally-answering-the-question.html#cb225-5" tabindex="-1"></a>        va <span class="ot">&lt;-</span> <span class="fu">rast</span>(vaFile)[[<span class="dv">1</span>]]<span class="sc">/</span><span class="dv">1000</span></span>
+<span id="cb225-6"><a href="chapter-9---finally-answering-the-question.html#cb225-6" tabindex="-1"></a>        vlFile <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;models/Vlatastei/&quot;</span>, nm, <span class="st">&quot;/&quot;</span>, nm, <span class="st">&quot;_Vlatastei_ensemble.tif&quot;</span>)</span>
+<span id="cb225-7"><a href="chapter-9---finally-answering-the-question.html#cb225-7" tabindex="-1"></a>        vl <span class="ot">&lt;-</span> <span class="fu">rast</span>(vlFile)[[<span class="dv">1</span>]]<span class="sc">/</span><span class="dv">1000</span></span>
+<span id="cb225-8"><a href="chapter-9---finally-answering-the-question.html#cb225-8" tabindex="-1"></a>        vsFile <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;models/Vseoanei/&quot;</span>, nm, <span class="st">&quot;/&quot;</span>, nm, <span class="st">&quot;_Vseoanei_ensemble.tif&quot;</span>)</span>
+<span id="cb225-9"><a href="chapter-9---finally-answering-the-question.html#cb225-9" tabindex="-1"></a>        vs <span class="ot">&lt;-</span> <span class="fu">rast</span>(vsFile)[[<span class="dv">1</span>]]<span class="sc">/</span><span class="dv">1000</span></span>
+<span id="cb225-10"><a href="chapter-9---finally-answering-the-question.html#cb225-10" tabindex="-1"></a>        </span>
+<span id="cb225-11"><a href="chapter-9---finally-answering-the-question.html#cb225-11" tabindex="-1"></a>        <span class="co"># Produce Future contact zone and rename accordingly to age and ssp</span></span>
+<span id="cb225-12"><a href="chapter-9---finally-answering-the-question.html#cb225-12" tabindex="-1"></a>        futCZ <span class="ot">&lt;-</span> va<span class="sc">*</span>vl<span class="sc">*</span>vs</span>
+<span id="cb225-13"><a href="chapter-9---finally-answering-the-question.html#cb225-13" tabindex="-1"></a>        <span class="fu">names</span>(futCZ) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(age, <span class="st">&quot;_&quot;</span>, ssp)</span>
+<span id="cb225-14"><a href="chapter-9---finally-answering-the-question.html#cb225-14" tabindex="-1"></a>        </span>
+<span id="cb225-15"><a href="chapter-9---finally-answering-the-question.html#cb225-15" tabindex="-1"></a>        <span class="co"># Grow CZ raster with each futCZ to store all in same file</span></span>
+<span id="cb225-16"><a href="chapter-9---finally-answering-the-question.html#cb225-16" tabindex="-1"></a>        CZ <span class="ot">&lt;-</span> <span class="fu">c</span>(CZ, futCZ)</span>
+<span id="cb225-17"><a href="chapter-9---finally-answering-the-question.html#cb225-17" tabindex="-1"></a>    }</span>
+<span id="cb225-18"><a href="chapter-9---finally-answering-the-question.html#cb225-18" tabindex="-1"></a>}</span></code></pre></div>
+<p>We can now plot the raster or contact zone predictions.</p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="chapter-9---finally-answering-the-question.html#cb226-1" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>), <span class="dv">5</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>))</span>
+<span id="cb226-2"><a href="chapter-9---finally-answering-the-question.html#cb226-2" tabindex="-1"></a><span class="fu">plot</span>(CZ[[<span class="dv">1</span>]], <span class="at">main=</span><span class="fu">names</span>(CZ)[<span class="dv">1</span>], <span class="at">col=</span><span class="fu">hcl.colors</span>(<span class="dv">25</span>), <span class="at">range=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.3</span>))</span>
+<span id="cb226-3"><a href="chapter-9---finally-answering-the-question.html#cb226-3" tabindex="-1"></a><span class="fu">plot</span>(CZ[[<span class="dv">2</span>]], <span class="at">main=</span><span class="fu">names</span>(CZ)[<span class="dv">2</span>], <span class="at">col=</span><span class="fu">hcl.colors</span>(<span class="dv">25</span>), <span class="at">range=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.3</span>))</span>
+<span id="cb226-4"><a href="chapter-9---finally-answering-the-question.html#cb226-4" tabindex="-1"></a><span class="fu">plot</span>(CZ[[<span class="dv">3</span>]], <span class="at">main=</span><span class="fu">names</span>(CZ)[<span class="dv">3</span>], <span class="at">col=</span><span class="fu">hcl.colors</span>(<span class="dv">25</span>), <span class="at">range=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.3</span>))</span>
+<span id="cb226-5"><a href="chapter-9---finally-answering-the-question.html#cb226-5" tabindex="-1"></a><span class="fu">plot</span>(CZ[[<span class="dv">4</span>]], <span class="at">main=</span><span class="fu">names</span>(CZ)[<span class="dv">4</span>], <span class="at">col=</span><span class="fu">hcl.colors</span>(<span class="dv">25</span>), <span class="at">range=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.3</span>))</span>
+<span id="cb226-6"><a href="chapter-9---finally-answering-the-question.html#cb226-6" tabindex="-1"></a><span class="fu">plot</span>(CZ[[<span class="dv">5</span>]], <span class="at">main=</span><span class="fu">names</span>(CZ)[<span class="dv">5</span>], <span class="at">col=</span><span class="fu">hcl.colors</span>(<span class="dv">25</span>), <span class="at">range=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.3</span>))</span>
+<span id="cb226-7"><a href="chapter-9---finally-answering-the-question.html#cb226-7" tabindex="-1"></a><span class="fu">plot</span>(CZ[[<span class="dv">6</span>]], <span class="at">main=</span><span class="fu">names</span>(CZ)[<span class="dv">6</span>], <span class="at">col=</span><span class="fu">hcl.colors</span>(<span class="dv">25</span>), <span class="at">range=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.3</span>))</span>
+<span id="cb226-8"><a href="chapter-9---finally-answering-the-question.html#cb226-8" tabindex="-1"></a><span class="fu">plot</span>(CZ[[<span class="dv">7</span>]], <span class="at">main=</span><span class="fu">names</span>(CZ)[<span class="dv">7</span>], <span class="at">col=</span><span class="fu">hcl.colors</span>(<span class="dv">25</span>), <span class="at">range=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.3</span>))</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-113-1.png" width="18cm" height="24cm" /></p>
+<p>We can opt for other visualization strategies to show the change in the contact zone probabilities. For instance, we can show histograms of the probabilities to highlight how they will decrease for certain scenarios. The easiest way to do this is to extract the raster data into a data frame:</p>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="chapter-9---finally-answering-the-question.html#cb227-1" tabindex="-1"></a>CZdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(CZ)</span>
+<span id="cb227-2"><a href="chapter-9---finally-answering-the-question.html#cb227-2" tabindex="-1"></a><span class="fu">head</span>(CZdata)</span></code></pre></div>
+<pre><code>##       Present X2021.2040_126 X2041.2060_126 X2061.2080_126 X2021.2040_585
+## 18 0.09987750             NA             NA             NA             NA
+## 19 0.12561888     0.11822765     0.10352709     0.09530990     0.10332374
+## 20 0.08930794     0.05946025     0.05605990     0.05412670     0.05696170
+## 21 0.09405045     0.06034792     0.05766824     0.05757444     0.06232248
+## 22 0.11647692     0.08230678     0.07885152     0.07984742     0.07826458
+## 23 0.10401440     0.06464189     0.06400509     0.06364762     0.06510390
+##    X2041.2060_585 X2061.2080_585
+## 18             NA             NA
+## 19     0.10677778     0.06060992
+## 20     0.04717440     0.03103050
+## 21     0.05130403     0.02991918
+## 22     0.06388219     0.04501230
+## 23     0.05319662     0.03448973</code></pre>
+<p>As the whole projected area is dominated by near-zero values (low probability of contact), we will remove these values based on a very small threshold. This will prevent the histograms from being dominated by the large number of pixels with near-zero values, providing a clearer view of the changes in contact zone probabilities.</p>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="chapter-9---finally-answering-the-question.html#cb229-1" tabindex="-1"></a>CZdata[CZdata <span class="sc">&lt;</span> <span class="fl">0.01</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span></code></pre></div>
+<p>For the histograms, we need to define the width of the bars and the range of values. In this example, the values vary between 0 and 0.28, so we choose a width of 0.01 and create a sequence of cutting points (breaks).</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="chapter-9---finally-answering-the-question.html#cb230-1" tabindex="-1"></a>brk <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">0.35</span>, <span class="fl">0.01</span>)</span></code></pre></div>
+<p>We can retrieve the names of the layers in the raster to use as titles for plotting. The order of the layers corresponds to the order of columns in the data frame.</p>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="chapter-9---finally-answering-the-question.html#cb231-1" tabindex="-1"></a>titles <span class="ot">&lt;-</span> <span class="fu">names</span>(CZ)</span></code></pre></div>
+<p>Instead of plotting each column individually, as we did above for plotting the rasters, we can use a <em>for</em> loop that iterates over the columns. We set some nice colors for the bars and plot!</p>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="chapter-9---finally-answering-the-question.html#cb232-1" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>), <span class="dv">5</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>))</span>
+<span id="cb232-2"><a href="chapter-9---finally-answering-the-question.html#cb232-2" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(CZdata)) {</span>
+<span id="cb232-3"><a href="chapter-9---finally-answering-the-question.html#cb232-3" tabindex="-1"></a>    <span class="fu">hist</span>(CZdata[,i], <span class="at">breaks=</span>brk, <span class="at">main=</span>titles[i], <span class="at">col=</span><span class="st">&quot;steelblue1&quot;</span>, <span class="at">border=</span><span class="st">&quot;white&quot;</span>)</span>
+<span id="cb232-4"><a href="chapter-9---finally-answering-the-question.html#cb232-4" tabindex="-1"></a>}</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-118-1.png" width="18cm" height="24cm" /></p>
+<p>We can see that the worst-case scenario predicts a contraction of the contact zone to a narrow area by the end of the century. Currently, this area is where all three vipers are found together, while other regions represent high potential for all species, although not all species reach those areas. One reason could be that they are at the limit of their ecological niche, and one species may be excluded by another that is more dominant in the region.</p>
+<p>We can write the raster to a file that can be opened in any GIS for further exploration of the results.</p>
+<p><code>{r] writeRaster(CZ, "models/sympatry.tif")</code></p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chapter-8---model-projections.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="conclusion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"toolbar": {
+"position": "static"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

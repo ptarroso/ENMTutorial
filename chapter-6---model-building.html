@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>7 Chapter 6 - Model building | Ecological Niche Modelling</title>
+  <meta name="description" content="7 Chapter 6 - Model building | Ecological Niche Modelling" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="7 Chapter 6 - Model building | Ecological Niche Modelling" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="7 Chapter 6 - Model building | Ecological Niche Modelling" />
+  
+  
+  
+
+<meta name="author" content="Pedro Tarroso (FCUP / BIOPOLIS-CIBIO)" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chapter-5---prepare-projection-variables.html"/>
+<link rel="next" href="chapter-7---model-ensemble.html"/>
+<script src="assets/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="assets/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="assets/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="assets/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preamble</a></li>
+<li class="chapter" data-level="1" data-path="course-folder-structure-and-data.html"><a href="course-folder-structure-and-data.html"><i class="fa fa-check"></i><b>1</b> Course folder structure and data</a></li>
+<li class="chapter" data-level="2" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html"><i class="fa fa-check"></i><b>2</b> Chapter 1 - The presence data housekeeping</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-rows-with-missing-coordinates"><i class="fa fa-check"></i><b>2.1</b> Remove rows with missing coordinates</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-rows-that-fail-cleaning-tests"><i class="fa fa-check"></i><b>2.2</b> Remove rows that fail cleaning tests</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-rows-based-on-additional-gbif-information"><i class="fa fa-check"></i><b>2.3</b> Remove rows based on additional GBIF information</a></li>
+<li class="chapter" data-level="2.4" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-duplicated-coordinates"><i class="fa fa-check"></i><b>2.4</b> Remove duplicated coordinates</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#check-map"><i class="fa fa-check"></i><b>2.5</b> Check map</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#save-the-new-data"><i class="fa fa-check"></i><b>2.6</b> Save the new data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html"><i class="fa fa-check"></i><b>3</b> Chapter 2 - Processing the raster data</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html#general-layers"><i class="fa fa-check"></i><b>3.1</b> General layers</a></li>
+<li class="chapter" data-level="3.2" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html#processing-climate-layers"><i class="fa fa-check"></i><b>3.2</b> Processing climate layers</a></li>
+<li class="chapter" data-level="3.3" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html#process-evi"><i class="fa fa-check"></i><b>3.3</b> Process EVI</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="chapter-3---final-optimization-of-presence-data.html"><a href="chapter-3---final-optimization-of-presence-data.html"><i class="fa fa-check"></i><b>4</b> Chapter 3 - Final optimization of presence data</a></li>
+<li class="chapter" data-level="5" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html"><i class="fa fa-check"></i><b>5</b> Chapter 4 - Variable selection for modelling</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html#define-a-training-area-with-a-buffer"><i class="fa fa-check"></i><b>5.1</b> Define a training area with a buffer</a></li>
+<li class="chapter" data-level="5.2" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html#calculate-pairwise-correlations"><i class="fa fa-check"></i><b>5.2</b> Calculate pairwise correlations</a></li>
+<li class="chapter" data-level="5.3" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html#clustering-and-selection"><i class="fa fa-check"></i><b>5.3</b> Clustering and selection</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="chapter-5---prepare-projection-variables.html"><a href="chapter-5---prepare-projection-variables.html"><i class="fa fa-check"></i><b>6</b> Chapter 5 - Prepare projection variables</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="chapter-5---prepare-projection-variables.html"><a href="chapter-5---prepare-projection-variables.html#prepare-current-dataset-for-projection"><i class="fa fa-check"></i><b>6.1</b> Prepare current dataset for projection</a></li>
+<li class="chapter" data-level="6.2" data-path="chapter-5---prepare-projection-variables.html"><a href="chapter-5---prepare-projection-variables.html#prepare-future-climate-projections"><i class="fa fa-check"></i><b>6.2</b> Prepare future climate projections</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html"><i class="fa fa-check"></i><b>7</b> Chapter 6 - Model building</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#model-building"><i class="fa fa-check"></i><b>7.1</b> Model building</a></li>
+<li class="chapter" data-level="7.2" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#repeat-for-the-other-two-species"><i class="fa fa-check"></i><b>7.2</b> Repeat for the other two species</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#vipera-latastei"><i class="fa fa-check"></i><b>7.2.1</b> <em>Vipera latastei</em></a></li>
+<li class="chapter" data-level="7.2.2" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#vipera-seoanei"><i class="fa fa-check"></i><b>7.2.2</b> <em>Vipera seoanei</em></a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#final-considerations-for-the-modelling"><i class="fa fa-check"></i><b>7.3</b> Final considerations for the modelling</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html"><i class="fa fa-check"></i><b>8</b> Chapter 7 - Model ensemble</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html#ensembling-vipera-aspis"><i class="fa fa-check"></i><b>8.1</b> Ensembling <em>Vipera aspis</em></a></li>
+<li class="chapter" data-level="8.2" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html#ensembling-vipera-latastei"><i class="fa fa-check"></i><b>8.2</b> Ensembling <em>Vipera latastei</em></a></li>
+<li class="chapter" data-level="8.3" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html#ensembling-vipera-seoanei"><i class="fa fa-check"></i><b>8.3</b> Ensembling <em>Vipera seoanei</em></a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="final-considerations-for-the-ensembling.html"><a href="final-considerations-for-the-ensembling.html"><i class="fa fa-check"></i><b>9</b> Final considerations for the ensembling</a></li>
+<li class="chapter" data-level="10" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html"><i class="fa fa-check"></i><b>10</b> Chapter 8 - Model projections</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#projecting-vipera-aspis-models"><i class="fa fa-check"></i><b>10.1</b> Projecting <em>Vipera aspis</em> models</a></li>
+<li class="chapter" data-level="10.2" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#projecting-vipera-latastei-models"><i class="fa fa-check"></i><b>10.2</b> Projecting <em>Vipera latastei</em> models</a></li>
+<li class="chapter" data-level="10.3" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#projecting-vipera-latastei-models-1"><i class="fa fa-check"></i><b>10.3</b> Projecting <em>Vipera latastei</em> models</a></li>
+<li class="chapter" data-level="10.4" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#final-considerations-for-projections"><i class="fa fa-check"></i><b>10.4</b> Final considerations for projections</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="chapter-9---finally-answering-the-question.html"><a href="chapter-9---finally-answering-the-question.html"><i class="fa fa-check"></i><b>11</b> Chapter 9 - Finally, answering the question</a></li>
+<li class="chapter" data-level="12" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>12</b> Conclusion</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Ecological Niche Modelling</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter-6---model-building" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">7</span> Chapter 6 - Model building<a href="chapter-6---model-building.html#chapter-6---model-building" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Until now, we have been preparing data for Ecological Niche Modelling (ENM). These included_</p>
+<ol style="list-style-type: decimal">
+<li>Clean presence locations</li>
+<li>Aligned and selected environmental variables for training</li>
+<li>Cropped projection rasters for present and future climates</li>
+</ol>
+<p>At this point, we are ready to produce the first models. We will be using a package named <em>biomod2</em> that provides functionality for modeling, ensembling multiple models, and retrieving model projections.</p>
+<p>Building a single model is straightforward. However, if we want to vary some initial conditions (resampling, pseudo-absence selection, etc.) and use multiple modeling algorithms (GLM, GAM, CART, Maxent, etc.), we need to produce a large number of models and predictions. The <em>biomod2</em> library facilitates this process by internally tracking all model variants and providing us with a simpler interface to control crucial parameters of the modeling process that require our intervention.</p>
+<p>The purpose of this chapter is to build an ENM with:</p>
+<ul>
+<li>3 sets of pseudo-absences drawn randomly from the buffer area around presences</li>
+<li>4 modeling algorithms including Generalised Linear Models (GLM), General Additive Models (GAM), Maximum Entropy (Maxnet), and eXtreme Gradient Boosting Training (XGBOOST)</li>
+<li>5 replicates using K-Fold resampling strategy.</li>
+</ul>
+<p>The combination results in <span class="math inline">\(3x4x5=60\)</span> build models. Besides those, we will have to project models to present conditions and 6 future climate layers from a combination of ages and SSPs (covered in chapter 8).</p>
+<p>“We need the <em>terra</em> and <em>biomod2</em> packages. While <em>terra</em> provides GIS capabilities, <em>biomod2</em> offers the tools to build models. If <em>biomod2</em> is not available, it requires installation. Additionally, <em>biomod2</em> depends on other libraries, including <em>dismo</em>, <em>xgboost</em>, <em>maxnet</em>, <em>gam</em>, and <em>tidyterra</em>. We don’t need to interact directly with these packages, but <em>biomod2</em> requires them. We can install these packages either via the RStudio menu or by executing the following code:</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="chapter-6---model-building.html#cb168-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;biomod2&quot;</span>)</span>
+<span id="cb168-2"><a href="chapter-6---model-building.html#cb168-2" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;dismo&quot;</span>)</span>
+<span id="cb168-3"><a href="chapter-6---model-building.html#cb168-3" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;xgboost&quot;</span>)</span>
+<span id="cb168-4"><a href="chapter-6---model-building.html#cb168-4" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;maxnet&quot;</span>)</span>
+<span id="cb168-5"><a href="chapter-6---model-building.html#cb168-5" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;gam&quot;</span>)</span>
+<span id="cb168-6"><a href="chapter-6---model-building.html#cb168-6" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyterra&quot;</span>)</span></code></pre></div>
+<p>And we can open the need libraries:</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="chapter-6---model-building.html#cb169-1" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb169-2"><a href="chapter-6---model-building.html#cb169-2" tabindex="-1"></a><span class="fu">library</span>(biomod2)</span></code></pre></div>
+<p>Open the relevant data for modelling.</p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="chapter-6---model-building.html#cb170-1" tabindex="-1"></a>pres <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/species/speciesPresence_v2.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb170-2"><a href="chapter-6---model-building.html#cb170-2" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/rasters/final_vars.tif&quot;</span>)</span></code></pre></div>
+<p>Recall that the presence table has data for the 3 species and that the selected variables are in a single raster file.</p>
+<div id="model-building" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Model building<a href="chapter-6---model-building.html#model-building" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this chapter, we will build models for three species. We’ll start with a detailed walkthrough for <em>Vipera aspis</em>, and then apply the same process to the other two species. All models will be saved in the models directory, which should be empty at the start. A folder for each species, organized by <em>biomod2</em>, will be created automatically.</p>
+<p>The first step is to provide data into a formatting functions that will prepare the data in a way that <em>biomod2</em> can understand and track parameters.</p>
+<p>We need a response variable which is a vector of 1s with the same size as presence locations for the species. This is because we don’t have absences (zeros) and we are using a presence-only model strategy by creating pseudo-absences.</p>
+<p>We also need a table of coordinates for each presence which is present in our presence data file.</p>
+<p>Finally we need our explanatory variables or predictors that we prepared before.</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="chapter-6---model-building.html#cb171-1" tabindex="-1"></a><span class="co"># How many presences for Vaspis?</span></span>
+<span id="cb171-2"><a href="chapter-6---model-building.html#cb171-2" tabindex="-1"></a>n_va <span class="ot">&lt;-</span> <span class="fu">sum</span>(pres<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Vaspis&quot;</span>)</span>
+<span id="cb171-3"><a href="chapter-6---model-building.html#cb171-3" tabindex="-1"></a></span>
+<span id="cb171-4"><a href="chapter-6---model-building.html#cb171-4" tabindex="-1"></a><span class="co"># repeat 1 to the same length of presences available</span></span>
+<span id="cb171-5"><a href="chapter-6---model-building.html#cb171-5" tabindex="-1"></a>resp_va <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, n_va)</span>
+<span id="cb171-6"><a href="chapter-6---model-building.html#cb171-6" tabindex="-1"></a></span>
+<span id="cb171-7"><a href="chapter-6---model-building.html#cb171-7" tabindex="-1"></a><span class="co"># get the coordinates for Vaspis</span></span>
+<span id="cb171-8"><a href="chapter-6---model-building.html#cb171-8" tabindex="-1"></a>coords_va <span class="ot">&lt;-</span> pres[pres<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Vaspis&quot;</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
+<p>In the formatting data, we also provide some other modeling parameters. We need to define the strategy for selecting pseudo-absences, which is based on a buffer around presences. We use the same buffer as before (Chapter 2), which is 110,000 km. We ask for three different sets of 10,000 pseudo-absences followinf the <strong>disk</strong> strategy (same as buffer), which will allow us to capture some variation in the initial conditions for each model.</p>
+<p>The <em>dir.name</em> sets the folder where models are to be saved and the <em>resp.name</em> sets a name for the project and folder to be created inside the <em>models</em> folder.</p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="chapter-6---model-building.html#cb172-1" tabindex="-1"></a>vaData <span class="ot">&lt;-</span> <span class="fu">BIOMOD_FormatingData</span>(<span class="at">resp.var =</span> resp_va,</span>
+<span id="cb172-2"><a href="chapter-6---model-building.html#cb172-2" tabindex="-1"></a>                               <span class="at">expl.var =</span> vars,</span>
+<span id="cb172-3"><a href="chapter-6---model-building.html#cb172-3" tabindex="-1"></a>                               <span class="at">resp.xy =</span> coords_va,</span>
+<span id="cb172-4"><a href="chapter-6---model-building.html#cb172-4" tabindex="-1"></a>                               <span class="at">resp.name =</span> <span class="st">&quot;Vaspis&quot;</span>,</span>
+<span id="cb172-5"><a href="chapter-6---model-building.html#cb172-5" tabindex="-1"></a>                               <span class="at">dir.name =</span> <span class="st">&quot;models&quot;</span>,</span>
+<span id="cb172-6"><a href="chapter-6---model-building.html#cb172-6" tabindex="-1"></a>                               <span class="at">PA.nb.rep =</span> <span class="dv">3</span>,</span>
+<span id="cb172-7"><a href="chapter-6---model-building.html#cb172-7" tabindex="-1"></a>                               <span class="at">PA.nb.absences =</span> <span class="dv">10000</span>,</span>
+<span id="cb172-8"><a href="chapter-6---model-building.html#cb172-8" tabindex="-1"></a>                               <span class="at">PA.strategy =</span> <span class="st">&quot;disk&quot;</span>,</span>
+<span id="cb172-9"><a href="chapter-6---model-building.html#cb172-9" tabindex="-1"></a>                               <span class="at">PA.dist.max =</span> <span class="dv">110000</span>)</span></code></pre></div>
+<pre><code>## 
+## -=-=-=-=-=-=-=-=-=-=-=-=-=-= Vaspis Data Formating -=-=-=-=-=-=-=-=-=-=-=-=-=-=
+## 
+##       ! No data has been set aside for modeling evaluation
+##       ! No data has been set aside for modeling evaluation
+## 
+## Checking Pseudo-absence selection arguments...
+## 
+##       ! No data has been set aside for modeling evaluation
+##    &gt; Disk pseudo absences selection
+##    &gt; Pseudo absences are selected in explanatory variables|---------|---------|---------|---------|=========================================                                          
+##    &gt; random pseudo absences selection
+##    &gt; Pseudo absences are selected in explanatory variables
+## 
+##       ! No data has been set aside for modeling evaluation
+##       ! No data has been set aside for modeling evaluation
+## -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= Done -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=</code></pre>
+<p>We have the data formatted, so we can proceed to the modeling step. Here, we need to define the model algorithms to run and the train/test strategy. This allows us to control overfitting by providing examples to train the model and a set of independent examples to test its predictive ability. We choose K-fold cross-validation for this purpose. In this case, we divide the dataset into five equal-sized folds and test four against one for each fold.</p>
+<p>As models should be evaluated for performance, we choose two common techniques for this: TSS (True Skill Statistic) and ROC (Receiver Operating Characteristic)</p>
+<p>There are many algorithms available for modelling. We are limiting to 4 different algorithms which are generally fast to train and still provide a good example of the ensemble modelling strategy. We choose:</p>
+<ul>
+<li>Generalized Linear Model (GLM): A general regression model using a binomial family of distributions (logistic regression)</li>
+<li>Generalized Additive Models (GAM): A regression-based approach where smoothing functions are applied to each predictor.</li>
+<li>Maximum Entropy (Maxnet): A machine learning method sharing some similarities with GAM and is an R version of the common MaxEnt approach.</li>
+<li>Extreme Gradient Boosting (XGBOOST): A machine learning method related to decision trees, known to be fast and perform well.</li>
+</ul>
+<p>Each of these algorithms has specific parameters to tune. The <em>biomod2</em> library offers different strategies for tuning them. We are choosing the ‘bigboss’ strategy, which consists of a list of the best parameters as defined by the package authors. This means that the authors tested several algorithms under different data and provided a list of options for each algorithm that generally performs well in most common situations.</p>
+<p>Variable importance is a measure of how much each predictor influences each model. In the context of Ecological Niche Modeling (ENM), it detects the variable most determining the distribution of the species. This is done via permutations, set in <em>var.import</em>. We set this to 3, which is a low number of permutations, but since they take some time to run, we need to keep this number low for this example.</p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="chapter-6---model-building.html#cb174-1" tabindex="-1"></a>vaModel <span class="ot">&lt;-</span> <span class="fu">BIOMOD_Modeling</span>(<span class="at">bm.format =</span> vaData,</span>
+<span id="cb174-2"><a href="chapter-6---model-building.html#cb174-2" tabindex="-1"></a>                           <span class="at">modeling.id =</span> <span class="st">&quot;EcoMod&quot;</span>,</span>
+<span id="cb174-3"><a href="chapter-6---model-building.html#cb174-3" tabindex="-1"></a>                           <span class="at">models =</span> <span class="fu">c</span>(<span class="st">&quot;GAM&quot;</span>, <span class="st">&quot;GLM&quot;</span>, <span class="st">&quot;MAXNET&quot;</span>, <span class="st">&quot;XGBOOST&quot;</span>),</span>
+<span id="cb174-4"><a href="chapter-6---model-building.html#cb174-4" tabindex="-1"></a>                           <span class="at">CV.strategy =</span> <span class="st">&quot;kfold&quot;</span>,</span>
+<span id="cb174-5"><a href="chapter-6---model-building.html#cb174-5" tabindex="-1"></a>                           <span class="at">CV.k =</span> <span class="dv">5</span>,</span>
+<span id="cb174-6"><a href="chapter-6---model-building.html#cb174-6" tabindex="-1"></a>                           <span class="at">CV.do.full.models =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb174-7"><a href="chapter-6---model-building.html#cb174-7" tabindex="-1"></a>                           <span class="at">OPT.strategy =</span> <span class="st">&quot;bigboss&quot;</span>,</span>
+<span id="cb174-8"><a href="chapter-6---model-building.html#cb174-8" tabindex="-1"></a>                           <span class="at">var.import =</span> <span class="dv">3</span>,</span>
+<span id="cb174-9"><a href="chapter-6---model-building.html#cb174-9" tabindex="-1"></a>                           <span class="at">metric.eval =</span> <span class="fu">c</span>(<span class="st">&quot;TSS&quot;</span>, <span class="st">&quot;ROC&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="chapter-6---model-building.html#cb175-1" tabindex="-1"></a>vaModel</span></code></pre></div>
+<pre><code>## 
+## -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= BIOMOD.models.out -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+## 
+## Modeling folder : models
+## 
+## Species modeled : Vaspis
+## 
+## Modeling id : EcoMod
+## 
+## Considered variables : evi BIO_8 BIO_3 BIO_12 BIO_1
+## 
+## 
+## Computed Models :  Vaspis_PA1_RUN1_GAM Vaspis_PA1_RUN1_GLM 
+## Vaspis_PA1_RUN1_MAXNET Vaspis_PA1_RUN1_XGBOOST Vaspis_PA1_RUN2_GAM 
+## Vaspis_PA1_RUN2_GLM Vaspis_PA1_RUN2_MAXNET Vaspis_PA1_RUN2_XGBOOST 
+## Vaspis_PA1_RUN3_GAM Vaspis_PA1_RUN3_GLM Vaspis_PA1_RUN3_MAXNET 
+## Vaspis_PA1_RUN3_XGBOOST Vaspis_PA1_RUN4_GAM Vaspis_PA1_RUN4_GLM 
+## Vaspis_PA1_RUN4_MAXNET Vaspis_PA1_RUN4_XGBOOST Vaspis_PA1_RUN5_GAM 
+## Vaspis_PA1_RUN5_GLM Vaspis_PA1_RUN5_MAXNET Vaspis_PA1_RUN5_XGBOOST 
+## Vaspis_PA2_RUN1_GAM Vaspis_PA2_RUN1_GLM Vaspis_PA2_RUN1_MAXNET 
+## Vaspis_PA2_RUN1_XGBOOST Vaspis_PA2_RUN2_GAM Vaspis_PA2_RUN2_GLM 
+## Vaspis_PA2_RUN2_MAXNET Vaspis_PA2_RUN2_XGBOOST Vaspis_PA2_RUN3_GAM 
+## Vaspis_PA2_RUN3_GLM Vaspis_PA2_RUN3_MAXNET Vaspis_PA2_RUN3_XGBOOST 
+## Vaspis_PA2_RUN4_GAM Vaspis_PA2_RUN4_GLM Vaspis_PA2_RUN4_MAXNET 
+## Vaspis_PA2_RUN4_XGBOOST Vaspis_PA2_RUN5_GAM Vaspis_PA2_RUN5_GLM 
+## Vaspis_PA2_RUN5_MAXNET Vaspis_PA2_RUN5_XGBOOST Vaspis_PA3_RUN1_GAM 
+## Vaspis_PA3_RUN1_GLM Vaspis_PA3_RUN1_MAXNET Vaspis_PA3_RUN1_XGBOOST 
+## Vaspis_PA3_RUN2_GAM Vaspis_PA3_RUN2_GLM Vaspis_PA3_RUN2_MAXNET 
+## Vaspis_PA3_RUN2_XGBOOST Vaspis_PA3_RUN3_GAM Vaspis_PA3_RUN3_GLM 
+## Vaspis_PA3_RUN3_MAXNET Vaspis_PA3_RUN3_XGBOOST Vaspis_PA3_RUN4_GAM 
+## Vaspis_PA3_RUN4_GLM Vaspis_PA3_RUN4_MAXNET Vaspis_PA3_RUN4_XGBOOST 
+## Vaspis_PA3_RUN5_GAM Vaspis_PA3_RUN5_GLM Vaspis_PA3_RUN5_MAXNET 
+## Vaspis_PA3_RUN5_XGBOOST
+## 
+## 
+## Failed Models :  none
+## 
+## -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=</code></pre>
+<p>This command will take some time to run as it needs to build all the combinations of models we specified. It displays general information on the process, allowing us to check if any models are failing. If models do fail, we may need to investigate the reasons and adjust some parameters. If everything runs successfully, we can plot the results to evaluate the models’ performance.</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="chapter-6---model-building.html#cb177-1" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">bm_PlotEvalMean</span>(vaModel, <span class="at">dataset=</span><span class="st">&quot;calibration&quot;</span>)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-81-1.png" width="672" /></p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="chapter-6---model-building.html#cb178-1" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">bm_PlotEvalMean</span>(vaModel, <span class="at">dataset=</span><span class="st">&quot;validation&quot;</span>)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-81-2.png" width="672" /></p>
+<div class="noteblock">
+<p><strong>NOTE</strong>: We are assigning the results of the functions to a <em>plt</em> object that gets replaced with each plot. Since the functions used to plot also return the data used to build the plots, assigning the results to an object prevents displaying the entire dataset in the console. Although we are not using this data here, you can check the contents of <em>plt</em> at any time!</p>
+</div>
+<p>These plots show the model performance for the calibration and validation sets. Remember that we used the K-fold strategy with K=5K=5 folds. This means that all five combinations of four folds against one fold were used for calibration (training) and validation, respectively.</p>
+<p>The plots show the TSS (True Skill Statistic) and the ROC/AUC (Receiver Operating Characteristic/Area Under Curve) values. The closer these values are to 1, the better the model performance. Of course, different algorithms, different sets of pseudo-absences, and different sets of training data (folds) will provide slight variations in performance. Generally, the models we built are acceptable, as indicated by ROC/AUC values higher than 0.65 and TSS greater than 0.25. In general, XGBoost and Maxnet, both machine learning methods, outperform the simpler regression-based methods.</p>
+<p>Both calibration and validation show acceptable performance, indicating good model fitting, predictive ability, and a low level of overfitting.</p>
+<p>We can compare together the different runs and algorithms:</p>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="chapter-6---model-building.html#cb179-1" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">bm_PlotEvalBoxplot</span>(vaModel, <span class="at">group.by =</span> <span class="fu">c</span>(<span class="st">&#39;algo&#39;</span>, <span class="st">&#39;run&#39;</span>))</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-82-1.png" width="672" /></p>
+<p>An important step in the modeling results analysis is to understand how much each predictor variable is contributing to each model.</p>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="chapter-6---model-building.html#cb180-1" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">bm_PlotVarImpBoxplot</span>(vaModel, <span class="at">group.by =</span> <span class="fu">c</span>(<span class="st">&#39;expl.var&#39;</span>, <span class="st">&#39;run&#39;</span>, <span class="st">&#39;algo&#39;</span>))</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-83-1.png" width="672" /></p>
+<p>In general, it is shown that EVI is a low contributor for this species, while climate variables are generally more associated with the distribution of V. aspis. Although precipitation (BIO_12) is associated with high presence for Maxnet and GLM, a temperature variable (BIO_3) is generally important to all models.</p>
+<p>We can plot the response curves for each variable, which show how the predictions of the model vary with the range of values for each variable. This involves using the models to predict across the entire range of values for one variable while keeping the other variables fixed at a constant value. In this example, the other variables are fixed at their median value.</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="chapter-6---model-building.html#cb181-1" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">bm_PlotResponseCurves</span>(vaModel, <span class="at">fixed.var =</span> <span class="st">&#39;median&#39;</span>)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-84-1.png" width="672" /></p>
+<p>There are many combinations of models, runs, and pseudo-absence sets, making these plots complex to interpret. After ensembling (chapter 7), we will construct simpler response curves. However, it is important to note that, in general, the responses show similar patterns. We should give more importance to the responses of the variables that are more significant for each algorithm. For instance, it is not useful tssp in sspso focus on EVI for Maxnet and GLM algorithms.</p>
+<p>The models were built in the environmental space. The environmental values for the four predictors were extracted from the locations (presence and pseudo-absences) by <em>biomod2</em>. The models were then built, tested, and evaluated.</p>
+<p>At this point, we have a large combination of models that will be ensembled into a single one in the next chapter. However, we can still project the model to the entire study area. This will create a raster file that we can open in any GIS, which is useful for checking the spatial prediction patterns for each individual model and perform visual checking. The projections we will use to answer our initial question will be made in chapter 8, only after ensembling the models.</p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="chapter-6---model-building.html#cb182-1" tabindex="-1"></a>vaProj <span class="ot">&lt;-</span> <span class="fu">BIOMOD_Projection</span>(<span class="at">bm.mod =</span> vaModel,</span>
+<span id="cb182-2"><a href="chapter-6---model-building.html#cb182-2" tabindex="-1"></a>                            <span class="at">proj.name =</span> <span class="st">&#39;Present&#39;</span>,</span>
+<span id="cb182-3"><a href="chapter-6---model-building.html#cb182-3" tabindex="-1"></a>                            <span class="at">new.env =</span> vars,</span>
+<span id="cb182-4"><a href="chapter-6---model-building.html#cb182-4" tabindex="-1"></a>                            <span class="at">models.chosen =</span> <span class="st">&#39;all&#39;</span>)</span></code></pre></div>
+<p>We can directly plot all models, but it might take a long time to finish since there are many models (PA x Runs x Algorithm = 3 x 5 x 4 = 60 models) to show. However, all models are built and saved into a single file, <em>models/Vaspis/proj_Present/proj_Present_Vaspis.tif</em>, which can be inspected in any GIS.</p>
+</div>
+<div id="repeat-for-the-other-two-species" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Repeat for the other two species<a href="chapter-6---model-building.html#repeat-for-the-other-two-species" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="vipera-latastei" class="section level3 hasAnchor" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> <em>Vipera latastei</em><a href="chapter-6---model-building.html#vipera-latastei" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The code is basically the same, just changing the input data and directory names for <em>Vipera latastei</em>.</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="chapter-6---model-building.html#cb183-1" tabindex="-1"></a>n_vl <span class="ot">&lt;-</span> <span class="fu">sum</span>(pres<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Vlatastei&quot;</span>)</span>
+<span id="cb183-2"><a href="chapter-6---model-building.html#cb183-2" tabindex="-1"></a>coords_vl <span class="ot">&lt;-</span> pres[pres<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Vlatastei&quot;</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb183-3"><a href="chapter-6---model-building.html#cb183-3" tabindex="-1"></a></span>
+<span id="cb183-4"><a href="chapter-6---model-building.html#cb183-4" tabindex="-1"></a>vlData <span class="ot">&lt;-</span> <span class="fu">BIOMOD_FormatingData</span>(<span class="at">resp.var =</span> <span class="fu">rep</span>(<span class="dv">1</span>, n_vl),</span>
+<span id="cb183-5"><a href="chapter-6---model-building.html#cb183-5" tabindex="-1"></a>                               <span class="at">expl.var =</span> vars,</span>
+<span id="cb183-6"><a href="chapter-6---model-building.html#cb183-6" tabindex="-1"></a>                               <span class="at">resp.xy =</span> coords_vl,</span>
+<span id="cb183-7"><a href="chapter-6---model-building.html#cb183-7" tabindex="-1"></a>                               <span class="at">resp.name =</span> <span class="st">&quot;Vlatastei&quot;</span>,</span>
+<span id="cb183-8"><a href="chapter-6---model-building.html#cb183-8" tabindex="-1"></a>                               <span class="at">dir.name =</span> <span class="st">&quot;models&quot;</span>,</span>
+<span id="cb183-9"><a href="chapter-6---model-building.html#cb183-9" tabindex="-1"></a>                               <span class="at">PA.nb.rep =</span> <span class="dv">3</span>,</span>
+<span id="cb183-10"><a href="chapter-6---model-building.html#cb183-10" tabindex="-1"></a>                               <span class="at">PA.nb.absences =</span> <span class="dv">10000</span>,</span>
+<span id="cb183-11"><a href="chapter-6---model-building.html#cb183-11" tabindex="-1"></a>                               <span class="at">PA.strategy =</span> <span class="st">&quot;disk&quot;</span>,</span>
+<span id="cb183-12"><a href="chapter-6---model-building.html#cb183-12" tabindex="-1"></a>                               <span class="at">PA.dist.max =</span> <span class="dv">110000</span>)</span>
+<span id="cb183-13"><a href="chapter-6---model-building.html#cb183-13" tabindex="-1"></a></span>
+<span id="cb183-14"><a href="chapter-6---model-building.html#cb183-14" tabindex="-1"></a>vlModel <span class="ot">&lt;-</span> <span class="fu">BIOMOD_Modeling</span>(<span class="at">bm.format =</span> vlData,</span>
+<span id="cb183-15"><a href="chapter-6---model-building.html#cb183-15" tabindex="-1"></a>                           <span class="at">modeling.id =</span> <span class="st">&quot;EcoMod&quot;</span>,</span>
+<span id="cb183-16"><a href="chapter-6---model-building.html#cb183-16" tabindex="-1"></a>                           <span class="at">models =</span> <span class="fu">c</span>(<span class="st">&quot;GAM&quot;</span>, <span class="st">&quot;GLM&quot;</span>, <span class="st">&quot;MAXNET&quot;</span>, <span class="st">&quot;XGBOOST&quot;</span>),</span>
+<span id="cb183-17"><a href="chapter-6---model-building.html#cb183-17" tabindex="-1"></a>                           <span class="at">CV.strategy =</span> <span class="st">&quot;kfold&quot;</span>,</span>
+<span id="cb183-18"><a href="chapter-6---model-building.html#cb183-18" tabindex="-1"></a>                           <span class="at">CV.k =</span> <span class="dv">5</span>,</span>
+<span id="cb183-19"><a href="chapter-6---model-building.html#cb183-19" tabindex="-1"></a>                           <span class="at">CV.do.full.models =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb183-20"><a href="chapter-6---model-building.html#cb183-20" tabindex="-1"></a>                           <span class="at">OPT.strategy =</span> <span class="st">&quot;bigboss&quot;</span>,</span>
+<span id="cb183-21"><a href="chapter-6---model-building.html#cb183-21" tabindex="-1"></a>                           <span class="at">var.import =</span> <span class="dv">3</span>,</span>
+<span id="cb183-22"><a href="chapter-6---model-building.html#cb183-22" tabindex="-1"></a>                           <span class="at">metric.eval =</span> <span class="fu">c</span>(<span class="st">&quot;TSS&quot;</span>, <span class="st">&quot;ROC&quot;</span>))</span>
+<span id="cb183-23"><a href="chapter-6---model-building.html#cb183-23" tabindex="-1"></a><span class="co"># Plotting examples</span></span>
+<span id="cb183-24"><a href="chapter-6---model-building.html#cb183-24" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">bm_PlotEvalMean</span>(vlModel, <span class="at">dataset=</span><span class="st">&quot;calibration&quot;</span>)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-86-1.png" width="672" /></p>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="chapter-6---model-building.html#cb184-1" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">bm_PlotEvalMean</span>(vlModel, <span class="at">dataset=</span><span class="st">&quot;validation&quot;</span>)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-86-2.png" width="672" /></p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="chapter-6---model-building.html#cb185-1" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">bm_PlotEvalBoxplot</span>(vlModel, <span class="at">group.by =</span> <span class="fu">c</span>(<span class="st">&#39;algo&#39;</span>, <span class="st">&#39;run&#39;</span>))</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-86-3.png" width="672" /></p>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="chapter-6---model-building.html#cb186-1" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">bm_PlotVarImpBoxplot</span>(vlModel, <span class="at">group.by =</span> <span class="fu">c</span>(<span class="st">&#39;expl.var&#39;</span>, <span class="st">&#39;run&#39;</span>, <span class="st">&#39;algo&#39;</span>))</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-86-4.png" width="672" /></p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="chapter-6---model-building.html#cb187-1" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">bm_PlotResponseCurves</span>(vlModel, <span class="at">fixed.var =</span> <span class="st">&#39;median&#39;</span>)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-86-5.png" width="672" /></p>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="chapter-6---model-building.html#cb188-1" tabindex="-1"></a>vlProj <span class="ot">&lt;-</span> <span class="fu">BIOMOD_Projection</span>(<span class="at">bm.mod =</span> vlModel,</span>
+<span id="cb188-2"><a href="chapter-6---model-building.html#cb188-2" tabindex="-1"></a>                            <span class="at">proj.name =</span> <span class="st">&#39;Present&#39;</span>,</span>
+<span id="cb188-3"><a href="chapter-6---model-building.html#cb188-3" tabindex="-1"></a>                            <span class="at">new.env =</span> vars,</span>
+<span id="cb188-4"><a href="chapter-6---model-building.html#cb188-4" tabindex="-1"></a>                            <span class="at">models.chosen =</span> <span class="st">&#39;all&#39;</span>)</span></code></pre></div>
+</div>
+<div id="vipera-seoanei" class="section level3 hasAnchor" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> <em>Vipera seoanei</em><a href="chapter-6---model-building.html#vipera-seoanei" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The input data is now for <em>Vipera seoanei</em>.</p>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="chapter-6---model-building.html#cb189-1" tabindex="-1"></a>n_vs <span class="ot">&lt;-</span> <span class="fu">sum</span>(pres<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Vseoanei&quot;</span>)</span>
+<span id="cb189-2"><a href="chapter-6---model-building.html#cb189-2" tabindex="-1"></a>coords_vs <span class="ot">&lt;-</span> pres[pres<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Vseoanei&quot;</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb189-3"><a href="chapter-6---model-building.html#cb189-3" tabindex="-1"></a></span>
+<span id="cb189-4"><a href="chapter-6---model-building.html#cb189-4" tabindex="-1"></a>vsData <span class="ot">&lt;-</span> <span class="fu">BIOMOD_FormatingData</span>(<span class="at">resp.var =</span> <span class="fu">rep</span>(<span class="dv">1</span>, n_vs),</span>
+<span id="cb189-5"><a href="chapter-6---model-building.html#cb189-5" tabindex="-1"></a>                               <span class="at">expl.var =</span> vars,</span>
+<span id="cb189-6"><a href="chapter-6---model-building.html#cb189-6" tabindex="-1"></a>                               <span class="at">resp.xy =</span> coords_vs,</span>
+<span id="cb189-7"><a href="chapter-6---model-building.html#cb189-7" tabindex="-1"></a>                               <span class="at">resp.name =</span> <span class="st">&quot;Vseoanei&quot;</span>,</span>
+<span id="cb189-8"><a href="chapter-6---model-building.html#cb189-8" tabindex="-1"></a>                               <span class="at">dir.name =</span> <span class="st">&quot;models&quot;</span>,</span>
+<span id="cb189-9"><a href="chapter-6---model-building.html#cb189-9" tabindex="-1"></a>                               <span class="at">PA.nb.rep =</span> <span class="dv">3</span>,</span>
+<span id="cb189-10"><a href="chapter-6---model-building.html#cb189-10" tabindex="-1"></a>                               <span class="at">PA.nb.absences =</span> <span class="dv">10000</span>,</span>
+<span id="cb189-11"><a href="chapter-6---model-building.html#cb189-11" tabindex="-1"></a>                               <span class="at">PA.strategy =</span> <span class="st">&quot;disk&quot;</span>,</span>
+<span id="cb189-12"><a href="chapter-6---model-building.html#cb189-12" tabindex="-1"></a>                               <span class="at">PA.dist.max =</span> <span class="dv">110000</span>)</span>
+<span id="cb189-13"><a href="chapter-6---model-building.html#cb189-13" tabindex="-1"></a></span>
+<span id="cb189-14"><a href="chapter-6---model-building.html#cb189-14" tabindex="-1"></a>vsModel <span class="ot">&lt;-</span> <span class="fu">BIOMOD_Modeling</span>(<span class="at">bm.format =</span> vsData,</span>
+<span id="cb189-15"><a href="chapter-6---model-building.html#cb189-15" tabindex="-1"></a>                           <span class="at">modeling.id =</span> <span class="st">&quot;EcoMod&quot;</span>,</span>
+<span id="cb189-16"><a href="chapter-6---model-building.html#cb189-16" tabindex="-1"></a>                           <span class="at">models =</span> <span class="fu">c</span>(<span class="st">&quot;GAM&quot;</span>, <span class="st">&quot;GLM&quot;</span>, <span class="st">&quot;MAXNET&quot;</span>, <span class="st">&quot;XGBOOST&quot;</span>),</span>
+<span id="cb189-17"><a href="chapter-6---model-building.html#cb189-17" tabindex="-1"></a>                           <span class="at">CV.strategy =</span> <span class="st">&quot;kfold&quot;</span>,</span>
+<span id="cb189-18"><a href="chapter-6---model-building.html#cb189-18" tabindex="-1"></a>                           <span class="at">CV.k =</span> <span class="dv">5</span>,</span>
+<span id="cb189-19"><a href="chapter-6---model-building.html#cb189-19" tabindex="-1"></a>                           <span class="at">CV.do.full.models =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb189-20"><a href="chapter-6---model-building.html#cb189-20" tabindex="-1"></a>                           <span class="at">OPT.strategy =</span> <span class="st">&quot;bigboss&quot;</span>,</span>
+<span id="cb189-21"><a href="chapter-6---model-building.html#cb189-21" tabindex="-1"></a>                           <span class="at">var.import =</span> <span class="dv">3</span>,</span>
+<span id="cb189-22"><a href="chapter-6---model-building.html#cb189-22" tabindex="-1"></a>                           <span class="at">metric.eval =</span> <span class="fu">c</span>(<span class="st">&quot;TSS&quot;</span>, <span class="st">&quot;ROC&quot;</span>))</span>
+<span id="cb189-23"><a href="chapter-6---model-building.html#cb189-23" tabindex="-1"></a><span class="co"># Plotting examples</span></span>
+<span id="cb189-24"><a href="chapter-6---model-building.html#cb189-24" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">bm_PlotEvalMean</span>(vsModel, <span class="at">dataset=</span><span class="st">&quot;calibration&quot;</span>)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="chapter-6---model-building.html#cb190-1" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">bm_PlotEvalMean</span>(vsModel, <span class="at">dataset=</span><span class="st">&quot;validation&quot;</span>)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-87-2.png" width="672" /></p>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="chapter-6---model-building.html#cb191-1" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">bm_PlotEvalBoxplot</span>(vsModel, <span class="at">group.by =</span> <span class="fu">c</span>(<span class="st">&#39;algo&#39;</span>, <span class="st">&#39;run&#39;</span>))</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-87-3.png" width="672" /></p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="chapter-6---model-building.html#cb192-1" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">bm_PlotVarImpBoxplot</span>(vsModel, <span class="at">group.by =</span> <span class="fu">c</span>(<span class="st">&#39;expl.var&#39;</span>, <span class="st">&#39;run&#39;</span>, <span class="st">&#39;algo&#39;</span>))</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-87-4.png" width="672" /></p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="chapter-6---model-building.html#cb193-1" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">bm_PlotResponseCurves</span>(vsModel, <span class="at">fixed.var =</span> <span class="st">&#39;median&#39;</span>)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-87-5.png" width="672" /></p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="chapter-6---model-building.html#cb194-1" tabindex="-1"></a>vlProj <span class="ot">&lt;-</span> <span class="fu">BIOMOD_Projection</span>(<span class="at">bm.mod =</span> vsModel,</span>
+<span id="cb194-2"><a href="chapter-6---model-building.html#cb194-2" tabindex="-1"></a>                            <span class="at">proj.name =</span> <span class="st">&#39;Present&#39;</span>,</span>
+<span id="cb194-3"><a href="chapter-6---model-building.html#cb194-3" tabindex="-1"></a>                            <span class="at">new.env =</span> vars,</span>
+<span id="cb194-4"><a href="chapter-6---model-building.html#cb194-4" tabindex="-1"></a>                            <span class="at">models.chosen =</span> <span class="st">&#39;all&#39;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="final-considerations-for-the-modelling" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Final considerations for the modelling<a href="chapter-6---model-building.html#final-considerations-for-the-modelling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now, all models are available in the models directory. We will access them in the next chapters for ensembling, projecting, and plotting.</p>
+<p>By examining the different plots for each species, one can observe that different variables have varying importance for predicting each species. This is a significant finding, as it allows us to describe the niche of each species in terms of environmental preferences. Some species’ models will be more dependent on climate variables, making their distributions more susceptible to climate change. Species that rely more on static variables (NDVI, in this example) will have distributions in projections for other time periods that are less prone to change.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chapter-5---prepare-projection-variables.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter-7---model-ensemble.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"toolbar": {
+"position": "static"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

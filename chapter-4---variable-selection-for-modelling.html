@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5 Chapter 4 - Variable selection for modelling | Ecological Niche Modelling</title>
+  <meta name="description" content="5 Chapter 4 - Variable selection for modelling | Ecological Niche Modelling" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5 Chapter 4 - Variable selection for modelling | Ecological Niche Modelling" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5 Chapter 4 - Variable selection for modelling | Ecological Niche Modelling" />
+  
+  
+  
+
+<meta name="author" content="Pedro Tarroso (FCUP / BIOPOLIS-CIBIO)" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chapter-3---final-optimization-of-presence-data.html"/>
+<link rel="next" href="chapter-5---prepare-projection-variables.html"/>
+<script src="assets/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="assets/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="assets/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="assets/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preamble</a></li>
+<li class="chapter" data-level="1" data-path="course-folder-structure-and-data.html"><a href="course-folder-structure-and-data.html"><i class="fa fa-check"></i><b>1</b> Course folder structure and data</a></li>
+<li class="chapter" data-level="2" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html"><i class="fa fa-check"></i><b>2</b> Chapter 1 - The presence data housekeeping</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-rows-with-missing-coordinates"><i class="fa fa-check"></i><b>2.1</b> Remove rows with missing coordinates</a></li>
+<li class="chapter" data-level="2.2" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-rows-that-fail-cleaning-tests"><i class="fa fa-check"></i><b>2.2</b> Remove rows that fail cleaning tests</a></li>
+<li class="chapter" data-level="2.3" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-rows-based-on-additional-gbif-information"><i class="fa fa-check"></i><b>2.3</b> Remove rows based on additional GBIF information</a></li>
+<li class="chapter" data-level="2.4" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#remove-duplicated-coordinates"><i class="fa fa-check"></i><b>2.4</b> Remove duplicated coordinates</a></li>
+<li class="chapter" data-level="2.5" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#check-map"><i class="fa fa-check"></i><b>2.5</b> Check map</a></li>
+<li class="chapter" data-level="2.6" data-path="chapter-1---the-presence-data-housekeeping.html"><a href="chapter-1---the-presence-data-housekeeping.html#save-the-new-data"><i class="fa fa-check"></i><b>2.6</b> Save the new data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html"><i class="fa fa-check"></i><b>3</b> Chapter 2 - Processing the raster data</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html#general-layers"><i class="fa fa-check"></i><b>3.1</b> General layers</a></li>
+<li class="chapter" data-level="3.2" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html#processing-climate-layers"><i class="fa fa-check"></i><b>3.2</b> Processing climate layers</a></li>
+<li class="chapter" data-level="3.3" data-path="chapter-2---processing-the-raster-data.html"><a href="chapter-2---processing-the-raster-data.html#process-evi"><i class="fa fa-check"></i><b>3.3</b> Process EVI</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="chapter-3---final-optimization-of-presence-data.html"><a href="chapter-3---final-optimization-of-presence-data.html"><i class="fa fa-check"></i><b>4</b> Chapter 3 - Final optimization of presence data</a></li>
+<li class="chapter" data-level="5" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html"><i class="fa fa-check"></i><b>5</b> Chapter 4 - Variable selection for modelling</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html#define-a-training-area-with-a-buffer"><i class="fa fa-check"></i><b>5.1</b> Define a training area with a buffer</a></li>
+<li class="chapter" data-level="5.2" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html#calculate-pairwise-correlations"><i class="fa fa-check"></i><b>5.2</b> Calculate pairwise correlations</a></li>
+<li class="chapter" data-level="5.3" data-path="chapter-4---variable-selection-for-modelling.html"><a href="chapter-4---variable-selection-for-modelling.html#clustering-and-selection"><i class="fa fa-check"></i><b>5.3</b> Clustering and selection</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="chapter-5---prepare-projection-variables.html"><a href="chapter-5---prepare-projection-variables.html"><i class="fa fa-check"></i><b>6</b> Chapter 5 - Prepare projection variables</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="chapter-5---prepare-projection-variables.html"><a href="chapter-5---prepare-projection-variables.html#prepare-current-dataset-for-projection"><i class="fa fa-check"></i><b>6.1</b> Prepare current dataset for projection</a></li>
+<li class="chapter" data-level="6.2" data-path="chapter-5---prepare-projection-variables.html"><a href="chapter-5---prepare-projection-variables.html#prepare-future-climate-projections"><i class="fa fa-check"></i><b>6.2</b> Prepare future climate projections</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html"><i class="fa fa-check"></i><b>7</b> Chapter 6 - Model building</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#model-building"><i class="fa fa-check"></i><b>7.1</b> Model building</a></li>
+<li class="chapter" data-level="7.2" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#repeat-for-the-other-two-species"><i class="fa fa-check"></i><b>7.2</b> Repeat for the other two species</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#vipera-latastei"><i class="fa fa-check"></i><b>7.2.1</b> <em>Vipera latastei</em></a></li>
+<li class="chapter" data-level="7.2.2" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#vipera-seoanei"><i class="fa fa-check"></i><b>7.2.2</b> <em>Vipera seoanei</em></a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="chapter-6---model-building.html"><a href="chapter-6---model-building.html#final-considerations-for-the-modelling"><i class="fa fa-check"></i><b>7.3</b> Final considerations for the modelling</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html"><i class="fa fa-check"></i><b>8</b> Chapter 7 - Model ensemble</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html#ensembling-vipera-aspis"><i class="fa fa-check"></i><b>8.1</b> Ensembling <em>Vipera aspis</em></a></li>
+<li class="chapter" data-level="8.2" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html#ensembling-vipera-latastei"><i class="fa fa-check"></i><b>8.2</b> Ensembling <em>Vipera latastei</em></a></li>
+<li class="chapter" data-level="8.3" data-path="chapter-7---model-ensemble.html"><a href="chapter-7---model-ensemble.html#ensembling-vipera-seoanei"><i class="fa fa-check"></i><b>8.3</b> Ensembling <em>Vipera seoanei</em></a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="final-considerations-for-the-ensembling.html"><a href="final-considerations-for-the-ensembling.html"><i class="fa fa-check"></i><b>9</b> Final considerations for the ensembling</a></li>
+<li class="chapter" data-level="10" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html"><i class="fa fa-check"></i><b>10</b> Chapter 8 - Model projections</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#projecting-vipera-aspis-models"><i class="fa fa-check"></i><b>10.1</b> Projecting <em>Vipera aspis</em> models</a></li>
+<li class="chapter" data-level="10.2" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#projecting-vipera-latastei-models"><i class="fa fa-check"></i><b>10.2</b> Projecting <em>Vipera latastei</em> models</a></li>
+<li class="chapter" data-level="10.3" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#projecting-vipera-latastei-models-1"><i class="fa fa-check"></i><b>10.3</b> Projecting <em>Vipera latastei</em> models</a></li>
+<li class="chapter" data-level="10.4" data-path="chapter-8---model-projections.html"><a href="chapter-8---model-projections.html#final-considerations-for-projections"><i class="fa fa-check"></i><b>10.4</b> Final considerations for projections</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="chapter-9---finally-answering-the-question.html"><a href="chapter-9---finally-answering-the-question.html"><i class="fa fa-check"></i><b>11</b> Chapter 9 - Finally, answering the question</a></li>
+<li class="chapter" data-level="12" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>12</b> Conclusion</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Ecological Niche Modelling</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter-4---variable-selection-for-modelling" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">5</span> Chapter 4 - Variable selection for modelling<a href="chapter-4---variable-selection-for-modelling.html#chapter-4---variable-selection-for-modelling" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>It is common practice to collect all predictor variables available that are deemed relevant for our study system and hypotheses. These include direct variables (like temperature) and processed variables (like distances to habitat categories). However, it is rarely a good idea to include all variables into the modeling process.</p>
+<p>To address this, we can reduce the number of variables by checking the pairwise correlation among them. Correlated variables will bring mostly the same information to the model and might add a confounding effect when analyzing the variable importance in the models. There is no universal maximum correlation value for modeling, but avoiding correlations higher than 0.7 is generally considered sufficient. We will set this target for this example.</p>
+<p>We will only need <code>terra</code> library for this.</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="chapter-4---variable-selection-for-modelling.html#cb141-1" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code></pre></div>
+<p>We need the raster variables created in Chapter 2 and the optimised presence data from Chapter 3.</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="chapter-4---variable-selection-for-modelling.html#cb142-1" tabindex="-1"></a>evi <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/rasters/evi.tif&quot;</span>)</span>
+<span id="cb142-2"><a href="chapter-4---variable-selection-for-modelling.html#cb142-2" tabindex="-1"></a>clim <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/rasters/climate.tif&quot;</span>)</span>
+<span id="cb142-3"><a href="chapter-4---variable-selection-for-modelling.html#cb142-3" tabindex="-1"></a>pres <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/species/speciesPresence_v2.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p>The rasters are fully aligned (Chapter 2) and we can stack them together. Having the 20 variables (19 bioclimatic + 1 EVI) in the same object will simplify the process of selection.</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="chapter-4---variable-selection-for-modelling.html#cb143-1" tabindex="-1"></a>rst <span class="ot">&lt;-</span> <span class="fu">c</span>(clim, evi)</span>
+<span id="cb143-2"><a href="chapter-4---variable-selection-for-modelling.html#cb143-2" tabindex="-1"></a><span class="fu">names</span>(rst)</span></code></pre></div>
+<pre><code>##  [1] &quot;BIO_1&quot;  &quot;BIO_2&quot;  &quot;BIO_3&quot;  &quot;BIO_4&quot;  &quot;BIO_5&quot;  &quot;BIO_6&quot;  &quot;BIO_7&quot;  &quot;BIO_8&quot; 
+##  [9] &quot;BIO_9&quot;  &quot;BIO_10&quot; &quot;BIO_11&quot; &quot;BIO_12&quot; &quot;BIO_13&quot; &quot;BIO_14&quot; &quot;BIO_15&quot; &quot;BIO_16&quot;
+## [17] &quot;BIO_17&quot; &quot;BIO_18&quot; &quot;BIO_19&quot; &quot;evi&quot;</code></pre>
+<div id="define-a-training-area-with-a-buffer" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Define a training area with a buffer<a href="chapter-4---variable-selection-for-modelling.html#define-a-training-area-with-a-buffer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We need to define a training area for the modeling. This restricts the available area from where we retrieve data for model calibration, including both presence data and pseudo-absence data. There are many ways to select this area, but we will follow a strategy that defines a spatial buffer around the presence points. This buffer limits the area from which we can retrieve environmental data from the rasters. A buffer should provide enough environmental variation for the modeling. However, a very wide buffer can pose problems, as we might include areas that are far from the species’ optimal conditions. For instance, if we model a species only present in the Iberian Peninsula, but we choose a buffer large enough to include Iceland, we will be providing useless environmental variation to the model.</p>
+<p>In this chapter, the buffer will define the training area that will provide environmental variation to the model and where we should check the correlations. Although we have more environmental data outside the buffer, that data will not be relevant for the model and hence should not be used for correlation analysis.</p>
+<p>Here, we define the buffer size as 1 degree, which is roughly equivalent to ~110,000 meters.</p>
+<div class="noteblock">
+<p><strong>NOTE</strong>: The buffer defined here will be important for Chapter 6 when we build the models. We will have to define the same buffer size.”</p>
+</div>
+<div class="noteblock">
+<p><strong>NOTE on spatial data in R</strong>: When we open the presence data in R with the <code>read.table</code> command, we just create a data frame (like a spreadsheet in Excel). Although we might have columns for longitude and latitude, they are just numbers organized in two columns. Since creating buffers is a spatial operation, we have to inform R that the presences are spatial points. In other words, we have to formalize that the data frame is, in fact, a list of spatial points. This can be done with the <code>vect</code> command from the <code>terra</code> package, which is also used to open spatial data files such as shapefiles. We must define which columns store the longitude and latitude (in our case, the ‘x’ and ‘y’ columns).</p>
+</div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="chapter-4---variable-selection-for-modelling.html#cb145-1" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">vect</span>(pres, <span class="at">geom=</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>))</span></code></pre></div>
+<p>Now we can define our buffers with a 1-degree radius. The <code>buffer</code> function creates an individual buffer around each presence, and we then <code>aggregate</code> them into a single polygon.</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="chapter-4---variable-selection-for-modelling.html#cb146-1" tabindex="-1"></a>bsize <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb146-2"><a href="chapter-4---variable-selection-for-modelling.html#cb146-2" tabindex="-1"></a>buf <span class="ot">&lt;-</span> <span class="fu">buffer</span>(v, bsize)</span>
+<span id="cb146-3"><a href="chapter-4---variable-selection-for-modelling.html#cb146-3" tabindex="-1"></a>buf <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(buf)</span></code></pre></div>
+<p>To check how everything is looking, we can plot presence and buffers over the EVI variable.</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="chapter-4---variable-selection-for-modelling.html#cb147-1" tabindex="-1"></a><span class="fu">plot</span>(evi)</span>
+<span id="cb147-2"><a href="chapter-4---variable-selection-for-modelling.html#cb147-2" tabindex="-1"></a><span class="fu">plot</span>(buf, <span class="at">cex=</span><span class="fl">0.25</span>, <span class="at">add=</span>T)</span>
+<span id="cb147-3"><a href="chapter-4---variable-selection-for-modelling.html#cb147-3" tabindex="-1"></a><span class="fu">plot</span>(v, <span class="at">add=</span>T)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-57-1.png" width="672" />
+As we can see in the figure, the buffer is created around presences. This includes ocean areas which will be ignored later as they provides only NAs.</p>
+<p>We can use the buffer to extract the environmental data for all 20 variables.</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="chapter-4---variable-selection-for-modelling.html#cb148-1" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">extract</span>(rst, buf, <span class="at">ID=</span><span class="cn">FALSE</span>)</span>
+<span id="cb148-2"><a href="chapter-4---variable-selection-for-modelling.html#cb148-2" tabindex="-1"></a><span class="fu">head</span>(dt)</span></code></pre></div>
+<pre><code>##   BIO_1 BIO_2 BIO_3 BIO_4 BIO_5 BIO_6 BIO_7 BIO_8 BIO_9 BIO_10 BIO_11 BIO_12
+## 1    NA    NA    NA    NA    NA    NA    NA    NA    NA     NA     NA     NA
+## 2    NA    NA    NA    NA    NA    NA    NA    NA    NA     NA     NA     NA
+## 3    NA    NA    NA    NA    NA    NA    NA    NA    NA     NA     NA     NA
+## 4    NA    NA    NA    NA    NA    NA    NA    NA    NA     NA     NA     NA
+## 5    NA    NA    NA    NA    NA    NA    NA    NA    NA     NA     NA     NA
+## 6    NA    NA    NA    NA    NA    NA    NA    NA    NA     NA     NA     NA
+##   BIO_13 BIO_14 BIO_15 BIO_16 BIO_17 BIO_18 BIO_19 evi
+## 1     NA     NA     NA     NA     NA     NA     NA  NA
+## 2     NA     NA     NA     NA     NA     NA     NA  NA
+## 3     NA     NA     NA     NA     NA     NA     NA  NA
+## 4     NA     NA     NA     NA     NA     NA     NA  NA
+## 5     NA     NA     NA     NA     NA     NA     NA  NA
+## 6     NA     NA     NA     NA     NA     NA     NA  NA</code></pre>
+<p>There are many NAs that come from ocean pixels. We should remove those rows and keep only the valid data before proceeding with correlations. Since the rasters are fully aligned (Chapter 2), including the No Data mask, we can use the NAs from a single raster to filter all other variables.</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="chapter-4---variable-selection-for-modelling.html#cb150-1" tabindex="-1"></a>dt <span class="ot">&lt;-</span> dt[<span class="sc">!</span><span class="fu">is.na</span>(dt[,<span class="dv">1</span>]),]</span>
+<span id="cb150-2"><a href="chapter-4---variable-selection-for-modelling.html#cb150-2" tabindex="-1"></a><span class="fu">head</span>(dt)</span></code></pre></div>
+<pre><code>##       BIO_1    BIO_2    BIO_3    BIO_4    BIO_5     BIO_6    BIO_7    BIO_8
+## 8  9.446667 5.786667 29.61447 509.8863 20.14000 0.6000000 19.54000 10.74000
+## 18 9.408896 5.943919 30.25103 508.3113 20.18378 0.5351351 19.64865 10.68108
+## 19 9.499875 6.132250 30.78748 512.5685 20.44500 0.5270000 19.91800 10.69300
+## 20 9.612041 6.353250 31.41441 520.0265 20.71900 0.4950000 20.22400 10.71300
+## 31 9.459243 6.206061 31.10382 510.2022 20.35273 0.4000000 19.95273 10.69364
+## 32 9.627584 6.378666 31.63864 514.4630 20.68200 0.5210000 20.16100 10.72333
+##        BIO_9   BIO_10   BIO_11 BIO_12 BIO_13 BIO_14   BIO_15 BIO_16 BIO_17
+## 8   5.166667 15.74667 3.450000    798     99     40 30.06747    287    143
+## 18  5.153153 15.66441 3.411712    799     99     41 30.21513    288    143
+## 19  5.267500 15.77517 3.431667    803     98     41 29.25621    286    144
+## 20  5.363167 15.93750 3.436833    825     98     43 27.84145    288    148
+## 31 11.040606 15.70848 3.421818    818    101     42 30.15000    293    146
+## 32  5.438000 15.90683 3.519333    813    101     41 29.37465    289    147
+##    BIO_18 BIO_19       evi
+## 8     212    192 0.5183802
+## 18    211    192 0.4421933
+## 19    214    192 0.6296464
+## 20    190    195 0.5911894
+## 31    213    198 0.4945980
+## 32    182    195 0.6150222</code></pre>
+<p>Now we have only data! We can proceed with Pearson correlations.</p>
+</div>
+<div id="calculate-pairwise-correlations" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Calculate pairwise correlations<a href="chapter-4---variable-selection-for-modelling.html#calculate-pairwise-correlations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Getting the Pearson’s correlation scores for each pair of variables is very easy in R. We have all raster data for the training area (buffer) organized in a data frame where each column is a different variable. We just calculate correlations based on that table.</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="chapter-4---variable-selection-for-modelling.html#cb152-1" tabindex="-1"></a>corr <span class="ot">&lt;-</span> <span class="fu">cor</span>(dt)</span>
+<span id="cb152-2"><a href="chapter-4---variable-selection-for-modelling.html#cb152-2" tabindex="-1"></a><span class="co"># Rounding to 3 decimal places to facilitate visualization.</span></span>
+<span id="cb152-3"><a href="chapter-4---variable-selection-for-modelling.html#cb152-3" tabindex="-1"></a><span class="fu">round</span>(corr, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##         BIO_1  BIO_2  BIO_3  BIO_4  BIO_5  BIO_6  BIO_7  BIO_8  BIO_9 BIO_10
+## BIO_1   1.000  0.429  0.516 -0.087  0.870  0.896  0.217  0.410  0.737  0.956
+## BIO_2   0.429  1.000  0.675  0.433  0.767  0.073  0.855  0.129  0.422  0.566
+## BIO_3   0.516  0.675  1.000 -0.345  0.520  0.458  0.202  0.020  0.538  0.420
+## BIO_4  -0.087  0.433 -0.345  1.000  0.325 -0.476  0.831  0.201 -0.181  0.207
+## BIO_5   0.870  0.767  0.520  0.325  1.000  0.585  0.661  0.360  0.676  0.957
+## BIO_6   0.896  0.073  0.458 -0.476  0.585  1.000 -0.222  0.275  0.690  0.737
+## BIO_7   0.217  0.855  0.202  0.831  0.661 -0.222  1.000  0.178  0.174  0.468
+## BIO_8   0.410  0.129  0.020  0.201  0.360  0.275  0.178  1.000 -0.046  0.448
+## BIO_9   0.737  0.422  0.538 -0.181  0.676  0.690  0.174 -0.046  1.000  0.685
+## BIO_10  0.956  0.566  0.420  0.207  0.957  0.737  0.468  0.448  0.685  1.000
+## BIO_11  0.962  0.304  0.587 -0.349  0.739  0.967 -0.006  0.314  0.764  0.844
+## BIO_12 -0.514 -0.489 -0.263 -0.240 -0.630 -0.340 -0.443 -0.319 -0.382 -0.583
+## BIO_13 -0.242 -0.348 -0.096 -0.292 -0.387 -0.100 -0.373 -0.219 -0.131 -0.326
+## BIO_14 -0.734 -0.544 -0.472 -0.034 -0.766 -0.585 -0.380 -0.256 -0.678 -0.746
+## BIO_15  0.627  0.385  0.431 -0.118  0.583  0.539  0.201  0.134  0.609  0.595
+## BIO_16 -0.272 -0.375 -0.101 -0.322 -0.425 -0.112 -0.407 -0.251 -0.155 -0.365
+## BIO_17 -0.719 -0.530 -0.468 -0.019 -0.747 -0.582 -0.359 -0.270 -0.636 -0.725
+## BIO_18 -0.751 -0.511 -0.512  0.059 -0.760 -0.658 -0.304 -0.069 -0.777 -0.736
+## BIO_19 -0.100 -0.301  0.103 -0.497 -0.293  0.114 -0.458 -0.426  0.097 -0.242
+## evi    -0.230 -0.487 -0.269 -0.193 -0.392 -0.039 -0.435 -0.055 -0.344 -0.302
+##        BIO_11 BIO_12 BIO_13 BIO_14 BIO_15 BIO_16 BIO_17 BIO_18 BIO_19    evi
+## BIO_1   0.962 -0.514 -0.242 -0.734  0.627 -0.272 -0.719 -0.751 -0.100 -0.230
+## BIO_2   0.304 -0.489 -0.348 -0.544  0.385 -0.375 -0.530 -0.511 -0.301 -0.487
+## BIO_3   0.587 -0.263 -0.096 -0.472  0.431 -0.101 -0.468 -0.512  0.103 -0.269
+## BIO_4  -0.349 -0.240 -0.292 -0.034 -0.118 -0.322 -0.019  0.059 -0.497 -0.193
+## BIO_5   0.739 -0.630 -0.387 -0.766  0.583 -0.425 -0.747 -0.760 -0.293 -0.392
+## BIO_6   0.967 -0.340 -0.100 -0.585  0.539 -0.112 -0.582 -0.658  0.114 -0.039
+## BIO_7  -0.006 -0.443 -0.373 -0.380  0.201 -0.407 -0.359 -0.304 -0.458 -0.435
+## BIO_8   0.314 -0.319 -0.219 -0.256  0.134 -0.251 -0.270 -0.069 -0.426 -0.055
+## BIO_9   0.764 -0.382 -0.131 -0.678  0.609 -0.155 -0.636 -0.777  0.097 -0.344
+## BIO_10  0.844 -0.583 -0.326 -0.746  0.595 -0.365 -0.725 -0.736 -0.242 -0.302
+## BIO_11  1.000 -0.430 -0.154 -0.701  0.640 -0.174 -0.689 -0.742  0.039 -0.192
+## BIO_12 -0.430  1.000  0.899  0.714 -0.251  0.915  0.773  0.741  0.784  0.369
+## BIO_13 -0.154  0.899  1.000  0.371  0.151  0.990  0.453  0.480  0.864  0.182
+## BIO_14 -0.701  0.714  0.371  1.000 -0.800  0.396  0.984  0.891  0.255  0.541
+## BIO_15  0.640 -0.251  0.151 -0.800  1.000  0.133 -0.766 -0.617  0.186 -0.501
+## BIO_16 -0.174  0.915  0.990  0.396  0.133  1.000  0.468  0.502  0.885  0.196
+## BIO_17 -0.689  0.773  0.453  0.984 -0.766  0.468  1.000  0.891  0.318  0.515
+## BIO_18 -0.742  0.741  0.480  0.891 -0.617  0.502  0.891  1.000  0.204  0.423
+## BIO_19  0.039  0.784  0.864  0.255  0.186  0.885  0.318  0.204  1.000  0.177
+## evi    -0.192  0.369  0.182  0.541 -0.501  0.196  0.515  0.423  0.177  1.000</code></pre>
+<p>The correlation matrix provides the correlation score for each pair of variables. It is symmetric (the correlation of A to B is the same as B to A) and the diagonal gives the self-correlation, which is obviously 1.</p>
+<p>This matrix is not easy to use for the variable elimination process. Remember that we set a goal of not having an absolute correlation higher than 0.7, so we should find a way to select important variables that will provide a new set where the maximum pairwise correlation won’t exceed that value.</p>
+<p>One of the best and simplest ways is to organize the variables in a dendrogram by using a hierarchical clustering method. We should group in the same cluster variables that are similar to each other (highly correlated). To do this, we need to transform the correlation score into a dissimilarity or distance matrix, where increasing values will reflect that variables are less similar (low correlation). For that we need to:</p>
+<ol style="list-style-type: decimal">
+<li>Get the absolute value of the correlation because we just care about the magnitude of the correlation and not the direction (two variables that are correlated at -0.87 provide the same information as those that are correlated at +0.87). At this point, the matrix will have values from 0 (low correlation, thus highly distant) to 1 (high correlation, showing high similarity and low distance).</li>
+<li>Ensure that lower values reflect similarity (high correlation) and higher values describe dissimilarity (low correlation). To achieve this, we need to invert the values by subtracting the absolute value from 1.</li>
+</ol>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="chapter-4---variable-selection-for-modelling.html#cb154-1" tabindex="-1"></a><span class="co"># Convert correlation to distance</span></span>
+<span id="cb154-2"><a href="chapter-4---variable-selection-for-modelling.html#cb154-2" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">abs</span>(corr)</span></code></pre></div>
+<p>We need to discard one of the symmetrical sides and the diagonal. An easy way to do this is to convert the matrix to a <code>dist</code> object:</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="chapter-4---variable-selection-for-modelling.html#cb155-1" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(dist)</span></code></pre></div>
+</div>
+<div id="clustering-and-selection" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Clustering and selection<a href="chapter-4---variable-selection-for-modelling.html#clustering-and-selection" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>With the new distance matrix we can start the clustering process. We choose the method ‘single’ so every cluster is grouped by the minimum distance/correlation.</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="chapter-4---variable-selection-for-modelling.html#cb156-1" tabindex="-1"></a><span class="co"># Hierarchical cluster of distance</span></span>
+<span id="cb156-2"><a href="chapter-4---variable-selection-for-modelling.html#cb156-2" tabindex="-1"></a>hc <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist, <span class="at">method=</span><span class="st">&quot;single&quot;</span>)</span>
+<span id="cb156-3"><a href="chapter-4---variable-selection-for-modelling.html#cb156-3" tabindex="-1"></a><span class="fu">plot</span>(hc, <span class="at">hang=</span><span class="sc">-</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
+<p>We can select 5 variables, one from each major group in the tree. Variables can be selected based on how easily they can be interpreted in terms of the niche of the species. In this case, we select:</p>
+<ul>
+<li>evi</li>
+<li>BIO_8: Mean daily Temperature Wettest Quarter</li>
+<li>BIO_3: Isothermality</li>
+<li>BIO_12: Annual Precipitation Amount</li>
+<li>BIO_1: Annual Temperature</li>
+</ul>
+<p>We select the vars using the variables names we defined previously and create a new raster with only those variables.</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="chapter-4---variable-selection-for-modelling.html#cb157-1" tabindex="-1"></a>sel_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;evi&quot;</span>, <span class="st">&quot;BIO_8&quot;</span>, <span class="st">&quot;BIO_3&quot;</span>, <span class="st">&quot;BIO_12&quot;</span>, <span class="st">&quot;BIO_1&quot;</span>)</span>
+<span id="cb157-2"><a href="chapter-4---variable-selection-for-modelling.html#cb157-2" tabindex="-1"></a>sel_rst <span class="ot">&lt;-</span> rst[[sel_vars]]</span></code></pre></div>
+<p>We select the variables using the names we defined previously and create a new raster with only those variables.</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="chapter-4---variable-selection-for-modelling.html#cb158-1" tabindex="-1"></a><span class="co"># Check correlation of final dataset</span></span>
+<span id="cb158-2"><a href="chapter-4---variable-selection-for-modelling.html#cb158-2" tabindex="-1"></a>sel_dt <span class="ot">&lt;-</span> dt[,sel_vars]</span>
+<span id="cb158-3"><a href="chapter-4---variable-selection-for-modelling.html#cb158-3" tabindex="-1"></a><span class="fu">cor</span>(sel_dt)</span></code></pre></div>
+<pre><code>##                evi       BIO_8       BIO_3     BIO_12      BIO_1
+## evi     1.00000000 -0.05473548 -0.26896220  0.3687846 -0.2295176
+## BIO_8  -0.05473548  1.00000000  0.01993914 -0.3192758  0.4101052
+## BIO_3  -0.26896220  0.01993914  1.00000000 -0.2634080  0.5157017
+## BIO_12  0.36878463 -0.31927583 -0.26340797  1.0000000 -0.5142887
+## BIO_1  -0.22951757  0.41010518  0.51570173 -0.5142887  1.0000000</code></pre>
+<p>The maximum correlation does not pass the value of 0.51, which is generally acceptable.</p>
+<p>We save the selected variables to a file named <em>final_vars.tif</em>. You can check the variables in any GIS.</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="chapter-4---variable-selection-for-modelling.html#cb160-1" tabindex="-1"></a><span class="co"># Write Final raster to model</span></span>
+<span id="cb160-2"><a href="chapter-4---variable-selection-for-modelling.html#cb160-2" tabindex="-1"></a><span class="fu">writeRaster</span>(sel_rst, <span class="st">&quot;data/rasters/final_vars.tif&quot;</span>, <span class="at">overwrite=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chapter-3---final-optimization-of-presence-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter-5---prepare-projection-variables.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+},
+"toolbar": {
+"position": "static"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
