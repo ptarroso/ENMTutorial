@@ -209,7 +209,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="course-folder-structure-and-data" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">1</span> Course folder structure and data<a href="course-folder-structure-and-data.html#course-folder-structure-and-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>To follow this guide you should have a folder with data and scripts. You should have 9 scripts:</p>
+<p>To follow this guide you should have a folder with data and scripts. You can find the scripts in the <a href="https://github.com/ptarroso/ENMTutorial">github repository of the tutorial</a>. Clone the repository to your computer.</p>
+<p>You should have 9 scripts:</p>
 <ul>
 <li>01_Presence_Data.R</li>
 <li>02_ProcessRasters.R</li>
@@ -221,6 +222,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>08_projectAll.R</li>
 <li>09_prepareFinalMaps.R</li>
 </ul>
+<p>Each chapter of this tutorial corresponds to a script listed above. Although the sequence of the scripts is important due to dependencies on data generated in previous steps, they are designed to work independently (such as in separate R sessions). At the beginning of each script, you will load the necessary data to proceed. If you follow the full tutorial sequentially in one session, you may find that some lines of code are redundant (e.g., like reopening the same library each time or reloading previously built models to make projections when they are already available in the same R session).</p>
 <p>You should also have two folders:</p>
 <ul>
 <li>data: where all the needed data is saved and where scripts are generating data</li>

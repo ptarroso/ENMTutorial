@@ -212,14 +212,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>It is common practice to collect all predictor variables available that are deemed relevant for our study system and hypotheses. These include direct variables (like temperature) and processed variables (like distances to habitat categories). However, it is rarely a good idea to include all variables into the modeling process.</p>
 <p>To address this, we can reduce the number of variables by checking the pairwise correlation among them. Correlated variables will bring mostly the same information to the model and might add a confounding effect when analyzing the variable importance in the models. There is no universal maximum correlation value for modeling, but avoiding correlations higher than 0.7 is generally considered sufficient. We will set this target for this example.</p>
 <p>We will only need <code>terra</code> library for this.</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="chapter-4---variable-selection-for-modelling.html#cb141-1" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="chapter-4---variable-selection-for-modelling.html#cb139-1" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code></pre></div>
 <p>We need the raster variables created in Chapter 2 and the optimised presence data from Chapter 3.</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="chapter-4---variable-selection-for-modelling.html#cb142-1" tabindex="-1"></a>evi <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/rasters/evi.tif&quot;</span>)</span>
-<span id="cb142-2"><a href="chapter-4---variable-selection-for-modelling.html#cb142-2" tabindex="-1"></a>clim <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/rasters/climate.tif&quot;</span>)</span>
-<span id="cb142-3"><a href="chapter-4---variable-selection-for-modelling.html#cb142-3" tabindex="-1"></a>pres <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/species/speciesPresence_v2.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="chapter-4---variable-selection-for-modelling.html#cb140-1" tabindex="-1"></a>evi <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/rasters/evi.tif&quot;</span>)</span>
+<span id="cb140-2"><a href="chapter-4---variable-selection-for-modelling.html#cb140-2" tabindex="-1"></a>clim <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/rasters/climate.tif&quot;</span>)</span>
+<span id="cb140-3"><a href="chapter-4---variable-selection-for-modelling.html#cb140-3" tabindex="-1"></a>pres <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/species/speciesPresence_v2.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <p>The rasters are fully aligned (Chapter 2) and we can stack them together. Having the 20 variables (19 bioclimatic + 1 EVI) in the same object will simplify the process of selection.</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="chapter-4---variable-selection-for-modelling.html#cb143-1" tabindex="-1"></a>rst <span class="ot">&lt;-</span> <span class="fu">c</span>(clim, evi)</span>
-<span id="cb143-2"><a href="chapter-4---variable-selection-for-modelling.html#cb143-2" tabindex="-1"></a><span class="fu">names</span>(rst)</span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="chapter-4---variable-selection-for-modelling.html#cb141-1" tabindex="-1"></a>rst <span class="ot">&lt;-</span> <span class="fu">c</span>(clim, evi)</span>
+<span id="cb141-2"><a href="chapter-4---variable-selection-for-modelling.html#cb141-2" tabindex="-1"></a><span class="fu">names</span>(rst)</span></code></pre></div>
 <pre><code>##  [1] &quot;BIO_1&quot;  &quot;BIO_2&quot;  &quot;BIO_3&quot;  &quot;BIO_4&quot;  &quot;BIO_5&quot;  &quot;BIO_6&quot;  &quot;BIO_7&quot;  &quot;BIO_8&quot; 
 ##  [9] &quot;BIO_9&quot;  &quot;BIO_10&quot; &quot;BIO_11&quot; &quot;BIO_12&quot; &quot;BIO_13&quot; &quot;BIO_14&quot; &quot;BIO_15&quot; &quot;BIO_16&quot;
 ## [17] &quot;BIO_17&quot; &quot;BIO_18&quot; &quot;BIO_19&quot; &quot;evi&quot;</code></pre>
@@ -234,20 +234,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="noteblock">
 <p><strong>NOTE on spatial data in R</strong>: When we open the presence data in R with the <code>read.table</code> command, we just create a data frame (like a spreadsheet in Excel). Although we might have columns for longitude and latitude, they are just numbers organized in two columns. Since creating buffers is a spatial operation, we have to inform R that the presences are spatial points. In other words, we have to formalize that the data frame is, in fact, a list of spatial points. This can be done with the <code>vect</code> command from the <code>terra</code> package, which is also used to open spatial data files such as shapefiles. We must define which columns store the longitude and latitude (in our case, the ‘x’ and ‘y’ columns).</p>
 </div>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="chapter-4---variable-selection-for-modelling.html#cb145-1" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">vect</span>(pres, <span class="at">geom=</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="chapter-4---variable-selection-for-modelling.html#cb143-1" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">vect</span>(pres, <span class="at">geom=</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>))</span></code></pre></div>
 <p>Now we can define our buffers with a 1-degree radius. The <code>buffer</code> function creates an individual buffer around each presence, and we then <code>aggregate</code> them into a single polygon.</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="chapter-4---variable-selection-for-modelling.html#cb146-1" tabindex="-1"></a>bsize <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb146-2"><a href="chapter-4---variable-selection-for-modelling.html#cb146-2" tabindex="-1"></a>buf <span class="ot">&lt;-</span> <span class="fu">buffer</span>(v, bsize)</span>
-<span id="cb146-3"><a href="chapter-4---variable-selection-for-modelling.html#cb146-3" tabindex="-1"></a>buf <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(buf)</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="chapter-4---variable-selection-for-modelling.html#cb144-1" tabindex="-1"></a>bsize <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb144-2"><a href="chapter-4---variable-selection-for-modelling.html#cb144-2" tabindex="-1"></a>buf <span class="ot">&lt;-</span> <span class="fu">buffer</span>(v, bsize)</span>
+<span id="cb144-3"><a href="chapter-4---variable-selection-for-modelling.html#cb144-3" tabindex="-1"></a>buf <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(buf)</span></code></pre></div>
 <p>To check how everything is looking, we can plot presence and buffers over the EVI variable.</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="chapter-4---variable-selection-for-modelling.html#cb147-1" tabindex="-1"></a><span class="fu">plot</span>(evi)</span>
-<span id="cb147-2"><a href="chapter-4---variable-selection-for-modelling.html#cb147-2" tabindex="-1"></a><span class="fu">plot</span>(buf, <span class="at">cex=</span><span class="fl">0.25</span>, <span class="at">add=</span>T)</span>
-<span id="cb147-3"><a href="chapter-4---variable-selection-for-modelling.html#cb147-3" tabindex="-1"></a><span class="fu">plot</span>(v, <span class="at">add=</span>T)</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="chapter-4---variable-selection-for-modelling.html#cb145-1" tabindex="-1"></a><span class="fu">plot</span>(evi)</span>
+<span id="cb145-2"><a href="chapter-4---variable-selection-for-modelling.html#cb145-2" tabindex="-1"></a><span class="fu">plot</span>(buf, <span class="at">cex=</span><span class="fl">0.25</span>, <span class="at">add=</span>T)</span>
+<span id="cb145-3"><a href="chapter-4---variable-selection-for-modelling.html#cb145-3" tabindex="-1"></a><span class="fu">plot</span>(v, <span class="at">add=</span>T)</span></code></pre></div>
 <p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-57-1.png" width="672" />
 As we can see in the figure, the buffer is created around presences. This includes ocean areas which will be ignored later as they provides only NAs.</p>
 <p>We can use the buffer to extract the environmental data for all 20 variables.</p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="chapter-4---variable-selection-for-modelling.html#cb148-1" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">extract</span>(rst, buf, <span class="at">ID=</span><span class="cn">FALSE</span>)</span>
-<span id="cb148-2"><a href="chapter-4---variable-selection-for-modelling.html#cb148-2" tabindex="-1"></a><span class="fu">head</span>(dt)</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="chapter-4---variable-selection-for-modelling.html#cb146-1" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">extract</span>(rst, buf, <span class="at">ID=</span><span class="cn">FALSE</span>)</span>
+<span id="cb146-2"><a href="chapter-4---variable-selection-for-modelling.html#cb146-2" tabindex="-1"></a><span class="fu">head</span>(dt)</span></code></pre></div>
 <pre><code>##   BIO_1 BIO_2 BIO_3 BIO_4 BIO_5 BIO_6 BIO_7 BIO_8 BIO_9 BIO_10 BIO_11 BIO_12
 ## 1    NA    NA    NA    NA    NA    NA    NA    NA    NA     NA     NA     NA
 ## 2    NA    NA    NA    NA    NA    NA    NA    NA    NA     NA     NA     NA
@@ -263,8 +263,8 @@ As we can see in the figure, the buffer is created around presences. This includ
 ## 5     NA     NA     NA     NA     NA     NA     NA  NA
 ## 6     NA     NA     NA     NA     NA     NA     NA  NA</code></pre>
 <p>There are many NAs that come from ocean pixels. We should remove those rows and keep only the valid data before proceeding with correlations. Since the rasters are fully aligned (Chapter 2), including the No Data mask, we can use the NAs from a single raster to filter all other variables.</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="chapter-4---variable-selection-for-modelling.html#cb150-1" tabindex="-1"></a>dt <span class="ot">&lt;-</span> dt[<span class="sc">!</span><span class="fu">is.na</span>(dt[,<span class="dv">1</span>]),]</span>
-<span id="cb150-2"><a href="chapter-4---variable-selection-for-modelling.html#cb150-2" tabindex="-1"></a><span class="fu">head</span>(dt)</span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="chapter-4---variable-selection-for-modelling.html#cb148-1" tabindex="-1"></a>dt <span class="ot">&lt;-</span> dt[<span class="sc">!</span><span class="fu">is.na</span>(dt[,<span class="dv">1</span>]),]</span>
+<span id="cb148-2"><a href="chapter-4---variable-selection-for-modelling.html#cb148-2" tabindex="-1"></a><span class="fu">head</span>(dt)</span></code></pre></div>
 <pre><code>##       BIO_1    BIO_2    BIO_3    BIO_4    BIO_5     BIO_6    BIO_7    BIO_8
 ## 8  9.446667 5.786667 29.61447 509.8863 20.14000 0.6000000 19.54000 10.74000
 ## 18 9.408896 5.943919 30.25103 508.3113 20.18378 0.5351351 19.64865 10.68108
@@ -291,9 +291,9 @@ As we can see in the figure, the buffer is created around presences. This includ
 <div id="calculate-pairwise-correlations" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Calculate pairwise correlations<a href="chapter-4---variable-selection-for-modelling.html#calculate-pairwise-correlations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Getting the Pearson’s correlation scores for each pair of variables is very easy in R. We have all raster data for the training area (buffer) organized in a data frame where each column is a different variable. We just calculate correlations based on that table.</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="chapter-4---variable-selection-for-modelling.html#cb152-1" tabindex="-1"></a>corr <span class="ot">&lt;-</span> <span class="fu">cor</span>(dt)</span>
-<span id="cb152-2"><a href="chapter-4---variable-selection-for-modelling.html#cb152-2" tabindex="-1"></a><span class="co"># Rounding to 3 decimal places to facilitate visualization.</span></span>
-<span id="cb152-3"><a href="chapter-4---variable-selection-for-modelling.html#cb152-3" tabindex="-1"></a><span class="fu">round</span>(corr, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="chapter-4---variable-selection-for-modelling.html#cb150-1" tabindex="-1"></a>corr <span class="ot">&lt;-</span> <span class="fu">cor</span>(dt)</span>
+<span id="cb150-2"><a href="chapter-4---variable-selection-for-modelling.html#cb150-2" tabindex="-1"></a><span class="co"># Rounding to 3 decimal places to facilitate visualization.</span></span>
+<span id="cb150-3"><a href="chapter-4---variable-selection-for-modelling.html#cb150-3" tabindex="-1"></a><span class="fu">round</span>(corr, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##         BIO_1  BIO_2  BIO_3  BIO_4  BIO_5  BIO_6  BIO_7  BIO_8  BIO_9 BIO_10
 ## BIO_1   1.000  0.429  0.516 -0.087  0.870  0.896  0.217  0.410  0.737  0.956
 ## BIO_2   0.429  1.000  0.675  0.433  0.767  0.073  0.855  0.129  0.422  0.566
@@ -343,17 +343,17 @@ As we can see in the figure, the buffer is created around presences. This includ
 <li>Get the absolute value of the correlation because we just care about the magnitude of the correlation and not the direction (two variables that are correlated at -0.87 provide the same information as those that are correlated at +0.87). At this point, the matrix will have values from 0 (low correlation, thus highly distant) to 1 (high correlation, showing high similarity and low distance).</li>
 <li>Ensure that lower values reflect similarity (high correlation) and higher values describe dissimilarity (low correlation). To achieve this, we need to invert the values by subtracting the absolute value from 1.</li>
 </ol>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="chapter-4---variable-selection-for-modelling.html#cb154-1" tabindex="-1"></a><span class="co"># Convert correlation to distance</span></span>
-<span id="cb154-2"><a href="chapter-4---variable-selection-for-modelling.html#cb154-2" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">abs</span>(corr)</span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="chapter-4---variable-selection-for-modelling.html#cb152-1" tabindex="-1"></a><span class="co"># Convert correlation to distance</span></span>
+<span id="cb152-2"><a href="chapter-4---variable-selection-for-modelling.html#cb152-2" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">abs</span>(corr)</span></code></pre></div>
 <p>We need to discard one of the symmetrical sides and the diagonal. An easy way to do this is to convert the matrix to a <code>dist</code> object:</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="chapter-4---variable-selection-for-modelling.html#cb155-1" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(dist)</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="chapter-4---variable-selection-for-modelling.html#cb153-1" tabindex="-1"></a>dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(dist)</span></code></pre></div>
 </div>
 <div id="clustering-and-selection" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Clustering and selection<a href="chapter-4---variable-selection-for-modelling.html#clustering-and-selection" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>With the new distance matrix we can start the clustering process. We choose the method ‘single’ so every cluster is grouped by the minimum distance/correlation.</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="chapter-4---variable-selection-for-modelling.html#cb156-1" tabindex="-1"></a><span class="co"># Hierarchical cluster of distance</span></span>
-<span id="cb156-2"><a href="chapter-4---variable-selection-for-modelling.html#cb156-2" tabindex="-1"></a>hc <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist, <span class="at">method=</span><span class="st">&quot;single&quot;</span>)</span>
-<span id="cb156-3"><a href="chapter-4---variable-selection-for-modelling.html#cb156-3" tabindex="-1"></a><span class="fu">plot</span>(hc, <span class="at">hang=</span><span class="sc">-</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="chapter-4---variable-selection-for-modelling.html#cb154-1" tabindex="-1"></a><span class="co"># Hierarchical cluster of distance</span></span>
+<span id="cb154-2"><a href="chapter-4---variable-selection-for-modelling.html#cb154-2" tabindex="-1"></a>hc <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist, <span class="at">method=</span><span class="st">&quot;single&quot;</span>)</span>
+<span id="cb154-3"><a href="chapter-4---variable-selection-for-modelling.html#cb154-3" tabindex="-1"></a><span class="fu">plot</span>(hc, <span class="at">hang=</span><span class="sc">-</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img src="ENM_tutorial_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
 <p>We can select 5 variables, one from each major group in the tree. Variables can be selected based on how easily they can be interpreted in terms of the niche of the species. In this case, we select:</p>
 <ul>
@@ -364,12 +364,12 @@ As we can see in the figure, the buffer is created around presences. This includ
 <li>BIO_1: Annual Temperature</li>
 </ul>
 <p>We select the vars using the variables names we defined previously and create a new raster with only those variables.</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="chapter-4---variable-selection-for-modelling.html#cb157-1" tabindex="-1"></a>sel_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;evi&quot;</span>, <span class="st">&quot;BIO_8&quot;</span>, <span class="st">&quot;BIO_3&quot;</span>, <span class="st">&quot;BIO_12&quot;</span>, <span class="st">&quot;BIO_1&quot;</span>)</span>
-<span id="cb157-2"><a href="chapter-4---variable-selection-for-modelling.html#cb157-2" tabindex="-1"></a>sel_rst <span class="ot">&lt;-</span> rst[[sel_vars]]</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="chapter-4---variable-selection-for-modelling.html#cb155-1" tabindex="-1"></a>sel_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;evi&quot;</span>, <span class="st">&quot;BIO_8&quot;</span>, <span class="st">&quot;BIO_3&quot;</span>, <span class="st">&quot;BIO_12&quot;</span>, <span class="st">&quot;BIO_1&quot;</span>)</span>
+<span id="cb155-2"><a href="chapter-4---variable-selection-for-modelling.html#cb155-2" tabindex="-1"></a>sel_rst <span class="ot">&lt;-</span> rst[[sel_vars]]</span></code></pre></div>
 <p>We select the variables using the names we defined previously and create a new raster with only those variables.</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="chapter-4---variable-selection-for-modelling.html#cb158-1" tabindex="-1"></a><span class="co"># Check correlation of final dataset</span></span>
-<span id="cb158-2"><a href="chapter-4---variable-selection-for-modelling.html#cb158-2" tabindex="-1"></a>sel_dt <span class="ot">&lt;-</span> dt[,sel_vars]</span>
-<span id="cb158-3"><a href="chapter-4---variable-selection-for-modelling.html#cb158-3" tabindex="-1"></a><span class="fu">cor</span>(sel_dt)</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="chapter-4---variable-selection-for-modelling.html#cb156-1" tabindex="-1"></a><span class="co"># Check correlation of final dataset</span></span>
+<span id="cb156-2"><a href="chapter-4---variable-selection-for-modelling.html#cb156-2" tabindex="-1"></a>sel_dt <span class="ot">&lt;-</span> dt[,sel_vars]</span>
+<span id="cb156-3"><a href="chapter-4---variable-selection-for-modelling.html#cb156-3" tabindex="-1"></a><span class="fu">cor</span>(sel_dt)</span></code></pre></div>
 <pre><code>##                evi       BIO_8       BIO_3     BIO_12      BIO_1
 ## evi     1.00000000 -0.05473548 -0.26896220  0.3687846 -0.2295176
 ## BIO_8  -0.05473548  1.00000000  0.01993914 -0.3192758  0.4101052
@@ -378,8 +378,8 @@ As we can see in the figure, the buffer is created around presences. This includ
 ## BIO_1  -0.22951757  0.41010518  0.51570173 -0.5142887  1.0000000</code></pre>
 <p>The maximum correlation does not pass the value of 0.51, which is generally acceptable.</p>
 <p>We save the selected variables to a file named <em>final_vars.tif</em>. You can check the variables in any GIS.</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="chapter-4---variable-selection-for-modelling.html#cb160-1" tabindex="-1"></a><span class="co"># Write Final raster to model</span></span>
-<span id="cb160-2"><a href="chapter-4---variable-selection-for-modelling.html#cb160-2" tabindex="-1"></a><span class="fu">writeRaster</span>(sel_rst, <span class="st">&quot;data/rasters/final_vars.tif&quot;</span>, <span class="at">overwrite=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="chapter-4---variable-selection-for-modelling.html#cb158-1" tabindex="-1"></a><span class="co"># Write Final raster to model</span></span>
+<span id="cb158-2"><a href="chapter-4---variable-selection-for-modelling.html#cb158-2" tabindex="-1"></a><span class="fu">writeRaster</span>(sel_rst, <span class="st">&quot;data/rasters/final_vars.tif&quot;</span>, <span class="at">overwrite=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 
 </div>
 </div>

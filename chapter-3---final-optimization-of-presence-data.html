@@ -212,14 +212,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In this chapter, we will load the presence data we worked on in Chapter 1 and the raster variables we processed in Chapter 2. We will optimize the presence data by considering the spatial resolution of the variables.</p>
 <p>This ensures that no presence is repeated in the same pixel (also referred to as a cell). Having multiple presences in the same pixel would mean that we would provide the same set of environmental conditions repeated as many times as the presences. This can create an artificial bias in the models towards these values. By setting a resolution and removing duplicate presences, we also reduce bias towards areas with more sampling effort (an area with more effort tend to have more duplicates at wider spatial resolutions).</p>
 <p>We will only need <code>terra</code> library for this chapter.</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb122-1" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb120-1" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code></pre></div>
 <p>We can now open the relevant data for this chapter. Since in the last chapter we fully aligned the raster variables, we only need to open a single one now as it will provide enough information for this process. The presence data set is that produced at the end of chapter 1.</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb123-1" tabindex="-1"></a>evi <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/rasters/evi.tif&quot;</span>)</span>
-<span id="cb123-2"><a href="chapter-3---final-optimization-of-presence-data.html#cb123-2" tabindex="-1"></a>pres <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/species/speciesPresence_v1.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb121-1" tabindex="-1"></a>evi <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">&quot;data/rasters/evi.tif&quot;</span>)</span>
+<span id="cb121-2"><a href="chapter-3---final-optimization-of-presence-data.html#cb121-2" tabindex="-1"></a>pres <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/species/speciesPresence_v1.csv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Now we will extract raster values at each presence location point. For that, we will use the <code>extract</code> function provided by the <code>terra</code> package. This function will detect in which pixel/cell the presence is located and extract that information. If a presence is located in a No Data pixel, we will be able to identify it and remove it. However, here we are also interested in identifying if the pixel is the same or not. We cannot rely on EVI values for that, as different pixels might have the same value.</p>
 <p>We can set the <code>cells=TRUE</code> parameter in the <code>extract</code> function. For each presence, this will provide a unique pixel/cell identifier. Thus, if two presences are in the same pixel, they will have the same identifier, and we can keep only one, removing the duplicates.</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb124-1" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">extract</span>(evi, pres[,<span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>)], <span class="at">cells=</span><span class="cn">TRUE</span>)</span>
-<span id="cb124-2"><a href="chapter-3---final-optimization-of-presence-data.html#cb124-2" tabindex="-1"></a><span class="fu">head</span>(dt)</span></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb122-1" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">extract</span>(evi, pres[,<span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>)], <span class="at">cells=</span><span class="cn">TRUE</span>)</span>
+<span id="cb122-2"><a href="chapter-3---final-optimization-of-presence-data.html#cb122-2" tabindex="-1"></a><span class="fu">head</span>(dt)</span></code></pre></div>
 <pre><code>##   ID       evi  cell
 ## 1  1 0.5606292 70845
 ## 2  2 0.5706229 69470
@@ -228,13 +228,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5  5 0.5350373 70382
 ## 6  6 0.4996728 68569</code></pre>
 <p>Now we remove those presences that fall in No Data by checking the <em>evi</em> column of the extracted data table:</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb126-1" tabindex="-1"></a>mask <span class="ot">&lt;-</span> <span class="fu">is.na</span>(dt<span class="sc">$</span>evi)</span>
-<span id="cb126-2"><a href="chapter-3---final-optimization-of-presence-data.html#cb126-2" tabindex="-1"></a></span>
-<span id="cb126-3"><a href="chapter-3---final-optimization-of-presence-data.html#cb126-3" tabindex="-1"></a><span class="co"># how many presences fall in missing data?</span></span>
-<span id="cb126-4"><a href="chapter-3---final-optimization-of-presence-data.html#cb126-4" tabindex="-1"></a><span class="fu">sum</span>(mask)</span></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb124-1" tabindex="-1"></a>mask <span class="ot">&lt;-</span> <span class="fu">is.na</span>(dt<span class="sc">$</span>evi)</span>
+<span id="cb124-2"><a href="chapter-3---final-optimization-of-presence-data.html#cb124-2" tabindex="-1"></a></span>
+<span id="cb124-3"><a href="chapter-3---final-optimization-of-presence-data.html#cb124-3" tabindex="-1"></a><span class="co"># how many presences fall in missing data?</span></span>
+<span id="cb124-4"><a href="chapter-3---final-optimization-of-presence-data.html#cb124-4" tabindex="-1"></a><span class="fu">sum</span>(mask)</span></code></pre></div>
 <pre><code>## [1] 10</code></pre>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb128-1" tabindex="-1"></a>dt <span class="ot">&lt;-</span> dt[<span class="sc">!</span>mask,]</span>
-<span id="cb128-2"><a href="chapter-3---final-optimization-of-presence-data.html#cb128-2" tabindex="-1"></a>pres <span class="ot">&lt;-</span> pres[<span class="sc">!</span>mask,]</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb126-1" tabindex="-1"></a>dt <span class="ot">&lt;-</span> dt[<span class="sc">!</span>mask,]</span>
+<span id="cb126-2"><a href="chapter-3---final-optimization-of-presence-data.html#cb126-2" tabindex="-1"></a>pres <span class="ot">&lt;-</span> pres[<span class="sc">!</span>mask,]</span></code></pre></div>
 <p>Now that both the <em>presence</em> and <em>extrated</em> datasets are free of missing data, we need to check for pixel duplicates. However, there is a detail that adds a bit of complexity to the process. Since we are working with three species, we have to check for duplicates independently for each species. This is because the three species can coexist in the same pixel (sympatry), and we do not want to confound this situation as pixel duplicates.</p>
 <p>The easiest way to do this is to create a loop over the species so that we can detect duplicates for each species independently. The code is organized as follows:
 1. Check the names of the species to loop over (three different species in this case)
@@ -244,21 +244,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 2. Detect of duplicates only for the current species
 3. Update the <em>duplicated</em> column created in step 2 with the relevant information for the species.
 4. Print in the console how many duplicates were found for each species</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb129-1" tabindex="-1"></a>sps <span class="ot">&lt;-</span> <span class="fu">unique</span>(pres<span class="sc">$</span>species)</span>
-<span id="cb129-2"><a href="chapter-3---final-optimization-of-presence-data.html#cb129-2" tabindex="-1"></a></span>
-<span id="cb129-3"><a href="chapter-3---final-optimization-of-presence-data.html#cb129-3" tabindex="-1"></a>pres<span class="sc">$</span>duplicated <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb129-4"><a href="chapter-3---final-optimization-of-presence-data.html#cb129-4" tabindex="-1"></a></span>
-<span id="cb129-5"><a href="chapter-3---final-optimization-of-presence-data.html#cb129-5" tabindex="-1"></a><span class="cf">for</span> (sp <span class="cf">in</span> sps) {</span>
-<span id="cb129-6"><a href="chapter-3---final-optimization-of-presence-data.html#cb129-6" tabindex="-1"></a>    rows <span class="ot">&lt;-</span> <span class="fu">which</span>(pres<span class="sc">$</span>species <span class="sc">==</span> sp)</span>
-<span id="cb129-7"><a href="chapter-3---final-optimization-of-presence-data.html#cb129-7" tabindex="-1"></a>    sp.dup <span class="ot">&lt;-</span> <span class="fu">duplicated</span>(dt<span class="sc">$</span>cell[rows])</span>
-<span id="cb129-8"><a href="chapter-3---final-optimization-of-presence-data.html#cb129-8" tabindex="-1"></a>    pres<span class="sc">$</span>duplicated[rows] <span class="ot">&lt;-</span> sp.dup</span>
-<span id="cb129-9"><a href="chapter-3---final-optimization-of-presence-data.html#cb129-9" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;Species&quot;</span>, sp, <span class="st">&quot;has&quot;</span>, <span class="fu">sum</span>(sp.dup), <span class="st">&quot;duplicates&quot;</span>))</span>
-<span id="cb129-10"><a href="chapter-3---final-optimization-of-presence-data.html#cb129-10" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb127-1" tabindex="-1"></a>sps <span class="ot">&lt;-</span> <span class="fu">unique</span>(pres<span class="sc">$</span>species)</span>
+<span id="cb127-2"><a href="chapter-3---final-optimization-of-presence-data.html#cb127-2" tabindex="-1"></a></span>
+<span id="cb127-3"><a href="chapter-3---final-optimization-of-presence-data.html#cb127-3" tabindex="-1"></a>pres<span class="sc">$</span>duplicated <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb127-4"><a href="chapter-3---final-optimization-of-presence-data.html#cb127-4" tabindex="-1"></a></span>
+<span id="cb127-5"><a href="chapter-3---final-optimization-of-presence-data.html#cb127-5" tabindex="-1"></a><span class="cf">for</span> (sp <span class="cf">in</span> sps) {</span>
+<span id="cb127-6"><a href="chapter-3---final-optimization-of-presence-data.html#cb127-6" tabindex="-1"></a>    rows <span class="ot">&lt;-</span> <span class="fu">which</span>(pres<span class="sc">$</span>species <span class="sc">==</span> sp)</span>
+<span id="cb127-7"><a href="chapter-3---final-optimization-of-presence-data.html#cb127-7" tabindex="-1"></a>    sp.dup <span class="ot">&lt;-</span> <span class="fu">duplicated</span>(dt<span class="sc">$</span>cell[rows])</span>
+<span id="cb127-8"><a href="chapter-3---final-optimization-of-presence-data.html#cb127-8" tabindex="-1"></a>    pres<span class="sc">$</span>duplicated[rows] <span class="ot">&lt;-</span> sp.dup</span>
+<span id="cb127-9"><a href="chapter-3---final-optimization-of-presence-data.html#cb127-9" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;Species&quot;</span>, sp, <span class="st">&quot;has&quot;</span>, <span class="fu">sum</span>(sp.dup), <span class="st">&quot;duplicates&quot;</span>))</span>
+<span id="cb127-10"><a href="chapter-3---final-optimization-of-presence-data.html#cb127-10" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## [1] &quot;Species Vaspis has 9349 duplicates&quot;
 ## [1] &quot;Species Vlatastei has 959 duplicates&quot;
 ## [1] &quot;Species Vseoanei has 750 duplicates&quot;</code></pre>
 <p>We can check the first rows of data to check the table and how many presences were identified in total (each TRUE is equivalent to 1, and a FALSE to 0)</p>
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb131-1" tabindex="-1"></a><span class="fu">head</span>(pres)</span></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb129-1" tabindex="-1"></a><span class="fu">head</span>(pres)</span></code></pre></div>
 <pre><code>##   species    x     y duplicated
 ## 1  Vaspis 2.70 42.05      FALSE
 ## 2  Vaspis 2.09 42.31      FALSE
@@ -266,22 +266,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4  Vaspis 1.97 42.49      FALSE
 ## 5  Vaspis 2.09 42.13      FALSE
 ## 6  Vaspis 3.06 42.50      FALSE</code></pre>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb133-1" tabindex="-1"></a><span class="fu">sum</span>(pres<span class="sc">$</span>duplicated)</span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb131-1" tabindex="-1"></a><span class="fu">sum</span>(pres<span class="sc">$</span>duplicated)</span></code></pre></div>
 <pre><code>## [1] 11058</code></pre>
 <p>Everything seems coherent, so we proceed to remove the duplicated rows. We have to invert the logical value as we want to keep the rows that are not duplicated (were set as FALSE). The sub setting with [ ] only keeps the rows set as TRUE, thus, by inverting with the exclamation point (!) before, we invert and set TRUE to FALSE, and FALSE to TRUE.</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb135-1" tabindex="-1"></a>final_pres <span class="ot">&lt;-</span> pres[<span class="sc">!</span>pres<span class="sc">$</span>duplicated, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb133-1" tabindex="-1"></a>final_pres <span class="ot">&lt;-</span> pres[<span class="sc">!</span>pres<span class="sc">$</span>duplicated, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
 <p>We only kept the first 3 columns (species, name, longitude and latitude) as they are the information we need to model.</p>
 <p>We can get a summary of how may presence data points we kept at the end of presence processing.</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb136-1" tabindex="-1"></a><span class="fu">dim</span>(final_pres)</span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb134-1" tabindex="-1"></a><span class="fu">dim</span>(final_pres)</span></code></pre></div>
 <pre><code>## [1] 6796    3</code></pre>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb138-1" tabindex="-1"></a><span class="fu">table</span>(final_pres<span class="sc">$</span>species)</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb136-1" tabindex="-1"></a><span class="fu">table</span>(final_pres<span class="sc">$</span>species)</span></code></pre></div>
 <pre><code>## 
 ##    Vaspis Vlatastei  Vseoanei 
 ##      4969      1227       600</code></pre>
 <p>Finally, we end this chapter by saving a new file with the optimized data set that will be used for modelling.</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb140-1" tabindex="-1"></a><span class="co"># write to file</span></span>
-<span id="cb140-2"><a href="chapter-3---final-optimization-of-presence-data.html#cb140-2" tabindex="-1"></a>filename <span class="ot">&lt;-</span> <span class="st">&quot;data/species/speciesPresence_v2.csv&quot;</span></span>
-<span id="cb140-3"><a href="chapter-3---final-optimization-of-presence-data.html#cb140-3" tabindex="-1"></a><span class="fu">write.table</span>(final_pres, filename, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>, <span class="at">col.names=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="chapter-3---final-optimization-of-presence-data.html#cb138-1" tabindex="-1"></a><span class="co"># write to file</span></span>
+<span id="cb138-2"><a href="chapter-3---final-optimization-of-presence-data.html#cb138-2" tabindex="-1"></a>filename <span class="ot">&lt;-</span> <span class="st">&quot;data/species/speciesPresence_v2.csv&quot;</span></span>
+<span id="cb138-3"><a href="chapter-3---final-optimization-of-presence-data.html#cb138-3" tabindex="-1"></a><span class="fu">write.table</span>(final_pres, filename, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>, <span class="at">col.names=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 
 </div>
             </section>

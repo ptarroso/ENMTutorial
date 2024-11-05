@@ -1,5 +1,7 @@
 *.tif
 data/other/*
+data/species/*
+!data/species/original/*
 !data/other/.notes
 models/Vaspis/*
 models/Vlatastei/*
