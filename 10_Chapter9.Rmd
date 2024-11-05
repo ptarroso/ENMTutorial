@@ -85,7 +85,7 @@ for (ssp in ssps) {
 
 We can now plot the raster or contact zone predictions.
 
-```{r, fig.width = 18/cm(1), fig.height = 24/cm(1), out.width="18cm", out.height="24cm"}
+```{r} 
 layout(matrix(c(1,1,1,1:7), 5, byrow=TRUE))
 plot(CZ[[1]], main=names(CZ)[1], col=hcl.colors(25), range=c(0, 0.3))
 plot(CZ[[2]], main=names(CZ)[2], col=hcl.colors(25), range=c(0, 0.3))
@@ -124,7 +124,7 @@ titles <- names(CZ)
 
 Instead of plotting each column individually, as we did above for plotting the rasters, we can use a *for* loop that iterates over the columns. We set some nice colors for the bars and plot!
 
-```{r, fig.width = 18/cm(1), fig.height = 24/cm(1), out.width="18cm", out.height="24cm"}
+```{r}
 layout(matrix(c(1,1,1,1:7), 5, byrow=TRUE))
 for (i in 1:ncol(CZdata)) {
     hist(CZdata[,i], breaks=brk, main=titles[i], col="steelblue1", border="white")
