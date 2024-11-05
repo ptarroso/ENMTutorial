@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-Rscript compile.R
 git checkout gh-pages
+rm -r ENM_tutorial_files
+rm -r assets
 mv docs/* .
 rm -r docs
 git add .
 git commit -m "Last version of book"
-
