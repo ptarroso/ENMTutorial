@@ -1,7 +1,9 @@
 
 # Course folder structure and data
  
-To follow this guide you should have a folder with data and scripts. You should have 9 scripts:
+To follow this guide you should have a folder with data and scripts. You can find the scripts in the [github repository of the tutorial](https://github.com/ptarroso/ENMTutorial). Clone the repository to your computer.
+
+You should have 9 scripts:
  
 * 01_Presence_Data.R
 * 02_ProcessRasters.R
@@ -12,6 +14,8 @@ To follow this guide you should have a folder with data and scripts. You should 
 * 07_ensembleModels.R
 * 08_projectAll.R
 * 09_prepareFinalMaps.R
+ 
+Each chapter of this tutorial corresponds to a script listed above. Although the sequence of the scripts is important due to dependencies on data generated in previous steps, they are designed to work independently (such as in separate R sessions). At the beginning of each script, you will load the necessary data to proceed. If you follow the full tutorial sequentially in one session, you may find that some lines of code are redundant (e.g., like reopening the same library each time or reloading previously built models to make projections when they are already available in the same R session).
  
  You should also have two folders:
  
